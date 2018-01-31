@@ -18,6 +18,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.CompletableFutureSurrogate;
 import de.root1.simon.exceptions.RawChannelException;
 import de.root1.simon.codec.messages.*;
 import de.root1.simon.exceptions.LookupFailedException;
@@ -33,6 +34,8 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import org.apache.mina.core.future.CloseFuture;
 import org.apache.mina.core.session.IoSession;
 import org.slf4j.Logger;
@@ -162,6 +165,10 @@ public class ProcessMessageRunnable implements Runnable {
 
             case SimonMessageConstants.MSG_RELEASE_REF:
                 processReleaseRef();
+                break;
+
+            case SimonMessageConstants.MSG_ASYNC_FINISHED:
+                processAsyncMessageFinished();
                 break;
 
             default:
@@ -536,6 +543,19 @@ public class ProcessMessageRunnable implements Runnable {
                 result = new SimonVoid();
             }
 
+            // check for "standard" asynchrony components
+            if(result instanceof CompletableFuture){
+                int outstandingId = dispatcher.generateSequenceId();
+
+                ((CompletableFuture) result).whenComplete((v, x) -> {
+                    Object asyncResult = v == null ? x : v;
+
+                    dispatcher.publishAsyncResultToPeer(session, outstandingId, asyncResult);
+                });
+
+                result = new CompletableFutureSurrogate(outstandingId);
+            }
+
             // register "SimonCallback"-results in lookup-table
             if (Utils.isValidRemote(result)) {
 
@@ -758,5 +778,12 @@ public class ProcessMessageRunnable implements Runnable {
         dispatcher.getLookupTable().removeCallbackRef(session.getId(), msg.getRefId());
 
         logger.debug("end");
+    }
+
+    private void processAsyncMessageFinished(){
+
+        MsgAsyncComputationFinished msg = (MsgAsyncComputationFinished) abstractMessage;
+
+        dispatcher.publishAsyncResultLocally(msg.getSequence(), msg.getReturnValue());
     }
 }

@@ -51,7 +51,7 @@ public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
 
         MsgInvokeReturn m = new MsgInvokeReturn();
         try {
-            Object returnValue = in.getObject(SimonClassLoaderHelper.getClassLoader(Simon.class));
+            Object returnValue = UserObjectSerializer.readUserObject(in);
             m.setReturnValue(returnValue);
         } catch (ClassNotFoundException e) {
             MsgError error = new MsgError();
@@ -69,3 +69,4 @@ public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
     public void finishDecode(IoSession session, ProtocolDecoderOutput out) throws Exception {
     }
 }
+

@@ -17,28 +17,7 @@
  *   along with SIMON.  If not, see <http://www.gnu.org/licenses/>.
  */
 package de.root1.simon.codec.base;
-import de.root1.simon.codec.messages.MsgCloseRawChannel;
-import de.root1.simon.codec.messages.MsgCloseRawChannelReturn;
-import de.root1.simon.codec.messages.MsgEquals;
-import de.root1.simon.codec.messages.MsgEqualsReturn;
-import de.root1.simon.codec.messages.MsgError;
-import de.root1.simon.codec.messages.MsgHashCode;
-import de.root1.simon.codec.messages.MsgHashCodeReturn;
-import de.root1.simon.codec.messages.MsgInterfaceLookup;
-import de.root1.simon.codec.messages.MsgInterfaceLookupReturn;
-import de.root1.simon.codec.messages.MsgInvoke;
-import de.root1.simon.codec.messages.MsgInvokeReturn;
-import de.root1.simon.codec.messages.MsgNameLookup;
-import de.root1.simon.codec.messages.MsgNameLookupReturn;
-import de.root1.simon.codec.messages.MsgOpenRawChannel;
-import de.root1.simon.codec.messages.MsgOpenRawChannelReturn;
-import de.root1.simon.codec.messages.MsgPing;
-import de.root1.simon.codec.messages.MsgPong;
-import de.root1.simon.codec.messages.MsgRawChannelData;
-import de.root1.simon.codec.messages.MsgRawChannelDataReturn;
-import de.root1.simon.codec.messages.MsgReleaseRef;
-import de.root1.simon.codec.messages.MsgToString;
-import de.root1.simon.codec.messages.MsgToStringReturn;
+import de.root1.simon.codec.messages.*;
 import org.apache.mina.filter.codec.ProtocolCodecFactory;
 import org.apache.mina.filter.codec.demux.DemuxingProtocolCodecFactory;
 
@@ -217,8 +196,13 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
             super.addMessageEncoder(MsgReleaseRef.class, MsgReleaseRefEncoder.class);
             // incoming release ref
             super.addMessageDecoder(MsgReleaseRefDecoder.class);
-            
 
+
+            /*
+             * Async results
+             */
+            super.addMessageEncoder(MsgAsyncComputationFinished.class, MsgAsyncComputationFinishedEncoder.class);
+            super.addMessageDecoder(MsgAsyncComputationFinishedDecoder.class);
 	}
 }
 

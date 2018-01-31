@@ -18,6 +18,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.CompletableFutureSurrogate;
 import de.root1.simon.exceptions.RawChannelException;
 import de.root1.simon.codec.messages.*;
 import de.root1.simon.exceptions.InvokeTimeoutException;
@@ -29,6 +30,7 @@ import de.root1.simon.utils.Utils;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.core.service.IoHandler;
@@ -62,6 +64,11 @@ public class Dispatcher implements IoHandler {
      * object is replaced with the result
      */
     private final Map<Integer, Object> requestMonitorAndResultMap = Collections.synchronizedMap(new HashMap<Integer, Object>());
+
+    /**
+     * The map that holds async results. TODO
+     */
+    private final Map<Integer, Object> asyncResultsMap = Collections.synchronizedMap(new HashMap<Integer, Object>());
     /**
      * This map contains pairs of sessions and list of open requests This is
      * needed to do a clean shutdown of a session
@@ -747,6 +754,33 @@ public class Dispatcher implements IoHandler {
             logger.debug("result is an exception, throwing it ...");
             throw ((SimonRemoteException) o);
         }
+
+        if(o instanceof MsgInvokeReturn) {
+
+            MsgInvokeReturn msgInvokeReturn = (MsgInvokeReturn) o;
+
+            if(msgInvokeReturn.getReturnValue() instanceof CompletableFutureSurrogate){
+
+                CompletableFutureSurrogate actual = (CompletableFutureSurrogate) msgInvokeReturn.getReturnValue();
+                int id = actual.getOutstandingId();
+
+                CompletableFuture result;
+
+                synchronized (asyncResultsMap){
+                    if(asyncResultsMap.containsKey(id)){
+                        Object asyncResult = asyncResultsMap.get(id);
+                        result = CompletableFuture.completedFuture(asyncResult);
+                    }
+                    else {
+                        result = new CompletableFuture();
+                        asyncResultsMap.put(id, result);
+                    }
+                }
+
+                msgInvokeReturn.setReturnValue(result);
+            }
+        }
+
         return o;
     }
 
@@ -775,9 +809,22 @@ public class Dispatcher implements IoHandler {
      *
      * @return a request ID
      */
-    private synchronized Integer generateSequenceId() {
+    synchronized Integer generateSequenceId() {
         // if maximum reached, get maximum and set back to zero. otherwise just return the incremented value
-        return (sequenceIdCounter.incrementAndGet() == Integer.MAX_VALUE ? sequenceIdCounter.getAndSet(0) : sequenceIdCounter.intValue());
+        //TODO: which is not done in a thread safe way!! if incrementAndGet() reutrns Integer.MAX_VALUE, it might be incremented again!
+        // I'm not certain that this will necessarily result in an exception.
+        // also, we could just write a CAS loop ourselves... channeling my inner roman elizarov:
+        int prevValue;
+        int newValue;
+        do {
+            prevValue = sequenceIdCounter.get();
+            if(prevValue == Integer.MAX_VALUE){ newValue = 0; }
+            else { newValue = prevValue + 1; }
+        }
+        while(!sequenceIdCounter.compareAndSet(prevValue, newValue));
+
+        return newValue;
+//        return (sequenceIdCounter.incrementAndGet() == Integer.MAX_VALUE ? sequenceIdCounter.getAndSet(0) : sequenceIdCounter.intValue());
     }
 
     /**
@@ -1233,5 +1280,28 @@ public class Dispatcher implements IoHandler {
     @Override
     public void inputClosed(IoSession is) throws Exception {
         is.closeNow();
+    }
+
+    public void publishAsyncResultToPeer(IoSession session, int outstandingId, Object asyncResult) {
+        checkForInvalidState(session, "publishAsyncResult()");
+        //logger.debug?
+
+        MsgAsyncComputationFinished msgAsyncFinished = new MsgAsyncComputationFinished();
+        msgAsyncFinished.setSequence(outstandingId);
+        msgAsyncFinished.setReturnValue(asyncResult);
+
+        session.write(msgAsyncFinished);
+    }
+
+    public void publishAsyncResultLocally(int outstandingId, Object asyncResult){
+        synchronized (asyncResultsMap){
+            if(asyncResultsMap.containsKey(outstandingId)){
+                CompletableFuture existingFuture = (CompletableFuture) asyncResultsMap.get(outstandingId);
+                existingFuture.complete(asyncResult);
+            }
+            else {
+                asyncResultsMap.put(outstandingId, asyncResult);
+            }
+        }
     }
 }

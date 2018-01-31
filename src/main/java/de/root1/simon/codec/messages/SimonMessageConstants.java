@@ -65,6 +65,8 @@ public final class SimonMessageConstants {
     public static final byte MSG_ERROR = 0x14;
     
     public static final byte MSG_RELEASE_REF = 0x15;
+
+    public static final byte MSG_ASYNC_FINISHED = 0x16;
 	
     private SimonMessageConstants() {
     }

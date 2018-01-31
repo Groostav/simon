@@ -60,8 +60,9 @@ public class MsgInvokeEncoder<T extends MsgInvoke> extends AbstractMessageEncode
             out.putInt(argsLen);
 
             for (int i = 0; i < argsLen; i++) {
-                logger.trace("args[{}]={}", i, message.getArguments()[i]);
-                out.putObject(message.getArguments()[i]);
+                Object argument = message.getArguments()[i];
+                logger.trace("args[{}]={}", i, argument);
+                UserObjectSerializer.writeUserObject(argument, out);
             }
 
         } catch (Exception e) {

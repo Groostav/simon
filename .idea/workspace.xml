@@ -2,22 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0850dbf3-9589-4cc2-b6ce-78e4d85ea535" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_11.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_mina_mina_core_2_0_13.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_annotations_13_0.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlin_kotlin_stdlib_1_2_21.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jetbrains_kotlinx_kotlinx_coroutines_core_0_22_1.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_16.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_jdk14_1_7_16.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/simon.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgAsyncComputationFinishedDecoder.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgAsyncComputationFinishedEncoder.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgAsyncComputationFinished.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/main/kotlin/de/root1/simon/codec/base/UserObjectSerializer.kt" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeDecoder.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeDecoder.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeEncoder.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeEncoder.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnDecoder.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnDecoder.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnEncoder.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnEncoder.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/SimonProtocolCodecFactory.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/SimonProtocolCodecFactory.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgHashCodeReturn.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgHashCodeReturn.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgInvokeReturn.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgInvokeReturn.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/SimonMessageConstants.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/SimonMessageConstants.java" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/SimonRemoteException.java" afterPath="$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/SimonRemoteException.java" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt" afterPath="$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,55 +29,134 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file leaf-file-name="AbstractMessage.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/AbstractMessage.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="238">
+                    <caret line="32" column="26" lean-forward="false" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+                    <folding>
+                      <element signature="e#2729#2730#0" expanded="true" />
+                      <element signature="e#2760#2761#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="MsgHashCodeReturn.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgHashCodeReturn.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="204">
+                    <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="MsgInvokeReturn.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgInvokeReturn.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="442">
+                    <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="MsgAsyncComputationFinished.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgAsyncComputationFinished.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="34">
+                    <caret line="2" column="40" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="40" />
+                    <folding>
+                      <element signature="e#271#272#0" expanded="true" />
+                      <element signature="e#305#306#0" expanded="true" />
+                      <element signature="e#359#360#0" expanded="true" />
+                      <element signature="e#405#406#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="SimonMessageConstants.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/SimonMessageConstants.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="309">
+                    <caret line="38" column="29" lean-forward="false" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="Dispatcher.java" pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="173">
+                    <caret line="594" column="20" lean-forward="true" selection-start-line="594" selection-start-column="20" selection-end-line="594" selection-end-column="20" />
+                    <folding>
+                      <element signature="e#36231#36232#0" expanded="true" />
+                      <element signature="e#36262#36263#0" expanded="true" />
+                      <element signature="e#36903#36904#0" expanded="true" />
+                      <element signature="e#36939#36940#0" expanded="true" />
+                      <element signature="e#46605#46606#0" expanded="true" />
+                      <element signature="e#46640#46641#0" expanded="true" />
+                      <element signature="e#47193#47194#0" expanded="true" />
+                      <element signature="e#47227#47228#0" expanded="true" />
+                      <element signature="e#48034#48035#0" expanded="true" />
+                      <element signature="e#48070#48071#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="UserObjectSerializer.kt" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/kotlin/de/root1/simon/codec/base/UserObjectSerializer.kt">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="825">
+                    <caret line="107" column="84" lean-forward="false" selection-start-line="107" selection-start-column="84" selection-end-line="107" selection-end-column="84" />
+                    <folding>
+                      <element signature="e#35#223#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="SimonRemoteException.java" pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/SimonRemoteException.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="153">
+                    <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="IoSession.java" pinned="false" current-in-tab="false">
+              <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/session/IoSession.java">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="612">
+                    <caret line="68" column="17" lean-forward="false" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="ImAliveEmpoweropsTest.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="41" lean-forward="false" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
-              <folding>
-                <element signature="e#29#325#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NativeMethodAccessorImpl.class" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProcessMessageRunnable.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="397" column="0" lean-forward="true" selection-start-line="397" selection-start-column="0" selection-end-line="397" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ThreadPoolExecutor.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/concurrent/ThreadPoolExecutor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="1141" column="0" lean-forward="false" selection-start-line="1141" selection-start-column="0" selection-end-line="1141" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WindowsSelectorImpl.class" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/nio/ch/WindowsSelectorImpl.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="453" column="27" lean-forward="false" selection-start-line="453" selection-start-column="27" selection-end-line="453" selection-end-column="27" />
+            <state relative-caret-position="423">
+              <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -91,7 +172,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Monitor.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Monitor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Monitor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="177">
@@ -101,11 +182,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Dispatcher.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java">
+      <file leaf-file-name="DispatchedTask.class" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/0.22.1/kotlinx-coroutines-core-0.22.1.jar!/kotlinx/coroutines/experimental/DispatchedTask.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="360" column="0" lean-forward="false" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
+            <state relative-caret-position="272">
+              <caret line="16" column="48" lean-forward="true" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -114,18 +195,58 @@
       <file leaf-file-name="SimonProxy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/SimonProxy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
+            <state relative-caret-position="192">
               <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CoroutineImpl.kt" pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.2.21/kotlin-stdlib-1.2.21-sources.jar!/kotlin/coroutines/experimental/jvm/internal/CoroutineImpl.kt">
+      <file leaf-file-name="ProcessMessageRunnable.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="545" column="57" lean-forward="true" selection-start-line="545" selection-start-column="57" selection-end-line="545" selection-end-column="57" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MsgAsyncComputationFinishedDecoder.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgAsyncComputationFinishedDecoder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DefaultIoFilterChain.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/filterchain/DefaultIoFilterChain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractPollingIoProcessor.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/polling/AbstractPollingIoProcessor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="274">
+              <caret line="600" column="46" lean-forward="true" selection-start-line="600" selection-start-column="46" selection-end-line="600" selection-end-column="46" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IoFilterAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/filterchain/IoFilterAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="177">
-              <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+              <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -137,6 +258,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin File" />
+        <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -146,6 +269,11 @@
       <find>test</find>
       <find>EmpowerFix</find>
       <find>&lt;configuration</find>
+      <find>sequenceID</find>
+      <find>putResult</find>
+      <find>dropped.</find>
+      <find>drop</find>
+      <find>dropped</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -160,8 +288,24 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeDecoder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeEncoder.java" />
         <option value="$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgHashCodeReturn.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/SimonMessageConstants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgInvokeReturn.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgAsyncCompuationFinished.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgAsyncComputationFinished.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/PostProcessable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/SimonProtocolCodecFactory.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnEncoder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnDecoder.java" />
         <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java" />
+        <option value="$PROJECT_DIR$/src/main/kotlin/de/root1/simon/codec/base/UserObjectSerializer.kt" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/PostProcessable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/SimonRemoteException.java" />
+        <option value="$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java" />
       </list>
     </option>
   </component>
@@ -203,7 +347,31 @@
     <option name="width" value="1543" />
     <option name="height" value="1066" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Kotlin</id>
+          </State>
+          <State>
+            <id>Redundant constructsKotlin</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>RemoveExplicitTypeArguments</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -303,6 +471,14 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="de.root1.simon.codec.base" />
+      <recent name="de.root1.simon" />
+      <recent name="de.root1.simon.codec.messages" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -472,54 +648,69 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1517370672745</updated>
-      <workItem from="1517370674253" duration="2231000" />
+      <workItem from="1517370674253" duration="18204000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="ThingyEmpoweropsTest_on_the_exec_path_baby! - 2018.01.30 at 20h 02m 46s.xml">
-      <configuration name="ThingyEmpoweropsTest.on the exec path baby!" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.30 at 20h 25m 42s.xml">
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 13m 41s.xml">
       <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.30 at 20h 26m 23s.xml">
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 13m 55s.xml">
       <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.30 at 20h 27m 31s.xml">
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 13m 58s.xml">
       <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.30 at 20h 28m 08s.xml">
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 14m 29s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 14m 55s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 15m 56s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 16m 31s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 17m 40s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 18m 00s.xml">
+      <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ThingyEmpoweropsTest_running_server_and_client_should_work_with_completable_futures_nicely! - 2018.01.31 at 01h 19m 09s.xml">
       <configuration name="ThingyEmpoweropsTest.running server and client should work with completable futures nicely!" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2231000" />
+    <option name="totallyTimeSpent" value="18204000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1672" y="-8" width="1696" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.148533" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -532,118 +723,482 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt</url>
-          <line>16</line>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java</url>
+          <line>370</line>
           <properties />
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java</url>
+          <line>757</line>
+          <properties />
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java</url>
+          <line>602</line>
+          <properties />
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="27" />
     </breakpoint-manager>
     <watches-manager />
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>prevValue</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>sequenceIdCounter.get()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>(obj as Throwable).printStackTrace()</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>obj</expression-string>
+        <language-id>kotlin</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/junit/junit/4.11/junit-4.11.jar!/org/junit/Test.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/SimonEndpointReference.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="14" column="18" lean-forward="false" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+        <state relative-caret-position="272">
+          <caret line="33" column="4" lean-forward="false" selection-start-line="33" selection-start-column="4" selection-end-line="33" selection-end-column="4" />
           <folding>
-            <marker date="1517369700878" expanded="false" signature="0:104" ph="/.../" />
-            <marker date="1517369700878" expanded="false" signature="133:286" ph="..." />
-            <marker date="1517369700878" expanded="true" signature="288:353" ph="@{...}" />
-            <marker date="1517369700878" expanded="true" signature="526:626" ph="{...}" />
-            <marker date="1517369700878" expanded="true" signature="609:620" ph="{}" />
+            <element signature="e#1248#1249#0" expanded="true" />
+            <element signature="e#1307#1308#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/root1/simon/test/PortNumberGenerator.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/AbstractLookup.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="34" column="13" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        <state relative-caret-position="192">
+          <caret line="368" column="32" lean-forward="false" selection-start-line="368" selection-start-column="32" selection-end-line="368" selection-end-column="32" />
+          <folding>
+            <element signature="e#15921#15922#0" expanded="true" />
+            <element signature="e#15983#15984#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/utils/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="384" column="29" lean-forward="false" selection-start-line="384" selection-start-column="29" selection-end-line="384" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/de/root1/simon/test/TestSimon.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgRawChannelDataReturn.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="100" column="23" lean-forward="false" selection-start-line="100" selection-start-column="23" selection-end-line="100" selection-end-column="23" />
+        <state relative-caret-position="187">
+          <caret line="28" column="52" lean-forward="true" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
           <folding>
-            <element signature="e#1498#1499#0" expanded="true" />
-            <element signature="e#1554#1555#0" expanded="true" />
+            <element signature="e#1042#1043#0" expanded="false" />
+            <element signature="e#1111#1112#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.2.21/kotlin-stdlib-1.2.21.jar!/kotlin/kotlin.kotlin_builtins">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/RawChannelDataListener.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="61" lean-forward="false" selection-start-line="5" selection-start-column="61" selection-end-line="5" selection-end-column="61" />
+        <state relative-caret-position="170">
+          <caret line="28" column="19" lean-forward="false" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/filetransmit/DefaultFileReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="893">
+          <caret line="118" column="18" lean-forward="true" selection-start-line="118" selection-start-column="18" selection-end-line="118" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/PingWatchdog.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="39" column="13" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/Collections.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="2547" column="22" lean-forward="false" selection-start-line="2547" selection-start-column="22" selection-end-line="2547" selection-end-column="22" />
+          <folding>
+            <element signature="e#101602#101603#0" expanded="false" />
+            <element signature="e#101649#101650#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/function/IntUnaryOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="40" column="17" lean-forward="false" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/concurrent/CompletableFuture.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="1931" column="13" lean-forward="false" selection-start-line="1931" selection-start-column="13" selection-end-line="1931" selection-end-column="13" />
+        <state relative-caret-position="411">
+          <caret line="2152" column="36" lean-forward="false" selection-start-line="2152" selection-start-column="36" selection-end-line="2152" selection-end-column="36" />
+          <folding>
+            <element signature="e#75214#75215#0" expanded="false" />
+            <element signature="e#75265#75266#0" expanded="false" />
+            <element signature="e#75689#75690#0" expanded="false" />
+            <element signature="e#75737#75738#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="80" column="52" lean-forward="false" selection-start-line="80" selection-start-column="52" selection-end-line="80" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/0.22.1/kotlinx-coroutines-core-0.22.1.jar!/kotlinx/coroutines/experimental/BuildersKt.class">
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/lang/Integer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="316">
+          <caret line="62" column="38" lean-forward="false" selection-start-line="62" selection-start-column="38" selection-end-line="62" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgRawChannelData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="47" column="30" lean-forward="false" selection-start-line="47" selection-start-column="30" selection-end-line="47" selection-end-column="30" />
+          <folding>
+            <element signature="e#1532#1533#0" expanded="false" />
+            <element signature="e#1567#1568#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/RawChannel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="87" column="20" lean-forward="false" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/filetransmit/FileReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="30" column="15" lean-forward="false" selection-start-line="30" selection-start-column="15" selection-end-line="30" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/filetransmit/DefaultFileSender.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="107" column="48" lean-forward="false" selection-start-line="107" selection-start-column="48" selection-end-line="107" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Simon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="738" column="29" lean-forward="false" selection-start-line="738" selection-start-column="29" selection-end-line="738" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/root1/simon/test/rawchannel/RawChannelServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="26" column="15" lean-forward="false" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgOpenRawChannelReturn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="15" column="44" lean-forward="false" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
-          <folding />
+          <caret line="32" column="11" lean-forward="false" selection-start-line="32" selection-start-column="11" selection-end-line="32" selection-end-column="11" />
+          <folding>
+            <element signature="e#1086#1087#0" expanded="false" />
+            <element signature="e#1155#1156#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/SimonMessageConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="60" column="20" lean-forward="false" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
+        <state relative-caret-position="309">
+          <caret line="38" column="29" lean-forward="false" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-jdk8/0.22.1/kotlinx-coroutines-jdk8-0.22.1.jar!/kotlinx/coroutines/experimental/future/FutureKt.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgHashCodeReturn.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="65" lean-forward="false" selection-start-line="13" selection-start-column="65" selection-end-line="13" selection-end-column="65" />
+        <state relative-caret-position="204">
+          <caret line="29" column="0" lean-forward="true" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Registry.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/session/IoSession.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="340" column="0" lean-forward="false" selection-start-line="340" selection-start-column="0" selection-end-line="340" selection-end-column="0" />
+        <state relative-caret-position="612">
+          <caret line="68" column="17" lean-forward="false" selection-start-line="68" selection-start-column="17" selection-end-line="68" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/reflect/NativeMethodAccessorImpl.class">
+    <entry file="file://$PROJECT_DIR$/src/test/java/de/root1/simon/test/rawchannel/TestRawChannel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+        <state relative-caret-position="328">
+          <caret line="132" column="69" lean-forward="true" selection-start-line="132" selection-start-column="69" selection-end-line="132" selection-end-column="69" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/concurrent/ThreadPoolExecutor.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/AbstractMessage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="32" column="26" lean-forward="false" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
+          <folding>
+            <element signature="e#2729#2730#0" expanded="true" />
+            <element signature="e#2760#2761#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/src.zip!/java/util/concurrent/atomic/AtomicInteger.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
-          <caret line="1141" column="0" lean-forward="false" selection-start-line="1141" selection-start-column="0" selection-end-line="1141" selection-end-column="0" />
+          <caret line="132" column="0" lean-forward="false" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/nio/ch/WindowsSelectorImpl.class">
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/NameLookup.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
-          <caret line="453" column="27" lean-forward="false" selection-start-line="453" selection-start-column="27" selection-end-line="453" selection-end-column="27" />
+          <caret line="68" column="0" lean-forward="false" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgReleaseRefEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="34" column="13" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgInvokeReturn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="49" column="1" lean-forward="true" selection-start-line="49" selection-start-column="1" selection-end-line="49" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-70">
+          <caret line="38" column="13" lean-forward="false" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/SimonProtocolCodecFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="79" column="72" lean-forward="false" selection-start-line="79" selection-start-column="72" selection-end-line="79" selection-end-column="72" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/messages/MsgAsyncComputationFinished.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="40" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="40" />
+          <folding>
+            <element signature="e#271#272#0" expanded="true" />
+            <element signature="e#305#306#0" expanded="true" />
+            <element signature="e#359#360#0" expanded="true" />
+            <element signature="e#405#406#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="50" column="28" lean-forward="true" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#1948#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgInvokeReturnDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/AbstractMessageDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="106" column="0" lean-forward="false" selection-start-line="106" selection-start-column="0" selection-end-line="106" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/filter/codec/demux/DemuxingProtocolDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="190" column="0" lean-forward="false" selection-start-line="190" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/filter/codec/CumulativeProtocolDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="203" column="0" lean-forward="false" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/filter/codec/ProtocolCodecFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="259" column="0" lean-forward="false" selection-start-line="259" selection-start-column="0" selection-end-line="259" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/filterchain/IoFilterAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/filterchain/DefaultIoFilterChain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="535" column="0" lean-forward="false" selection-start-line="535" selection-start-column="0" selection-end-line="535" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/mina/mina-core/2.0.13/mina-core-2.0.13-sources.jar!/org/apache/mina/core/polling/AbstractPollingIoProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="600" column="46" lean-forward="true" selection-start-line="600" selection-start-column="46" selection-end-line="600" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="545" column="57" lean-forward="true" selection-start-line="545" selection-start-column="57" selection-end-line="545" selection-end-column="57" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/codec/base/MsgAsyncComputationFinishedDecoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/kotlin/de/root1/simon/codec/base/UserObjectSerializer.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="107" column="84" lean-forward="false" selection-start-line="107" selection-start-column="84" selection-end-line="107" selection-end-column="84" />
+          <folding>
+            <element signature="e#35#223#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/PostProcessable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="18" lean-forward="false" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/exceptions/SimonRemoteException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="26" column="13" lean-forward="false" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/SimonProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlinx/kotlinx-coroutines-core/0.22.1/kotlinx-coroutines-core-0.22.1.jar!/kotlinx/coroutines/experimental/DispatchedTask.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="48" lean-forward="true" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/misc/Unsafe.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="353" column="23" lean-forward="false" selection-start-line="353" selection-start-column="23" selection-end-line="353" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -658,51 +1213,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/Dispatcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="360" column="0" lean-forward="false" selection-start-line="360" selection-start-column="0" selection-end-line="360" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/SimonProxy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="171" column="0" lean-forward="false" selection-start-line="171" selection-start-column="0" selection-end-line="171" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/jetbrains/kotlin/kotlin-stdlib/1.2.21/kotlin-stdlib-1.2.21-sources.jar!/kotlin/coroutines/experimental/jvm/internal/CoroutineImpl.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="53" column="0" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files (x86)/Java/jdk1.8.0_121/jre/lib/rt.jar!/sun/misc/Unsafe.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="353" column="23" lean-forward="false" selection-start-line="353" selection-start-column="23" selection-end-line="353" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/kotlin/d1/root1/simon/test/ImAliveEmpoweropsTest.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="41" lean-forward="false" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+        <state relative-caret-position="173">
+          <caret line="594" column="20" lean-forward="true" selection-start-line="594" selection-start-column="20" selection-end-line="594" selection-end-column="20" />
           <folding>
-            <element signature="e#29#325#0" expanded="true" />
+            <element signature="e#36231#36232#0" expanded="true" />
+            <element signature="e#36262#36263#0" expanded="true" />
+            <element signature="e#36903#36904#0" expanded="true" />
+            <element signature="e#36939#36940#0" expanded="true" />
+            <element signature="e#46605#46606#0" expanded="true" />
+            <element signature="e#46640#46641#0" expanded="true" />
+            <element signature="e#47193#47194#0" expanded="true" />
+            <element signature="e#47227#47228#0" expanded="true" />
+            <element signature="e#48034#48035#0" expanded="true" />
+            <element signature="e#48070#48071#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/de/root1/simon/ProcessMessageRunnable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="397" column="0" lean-forward="true" selection-start-line="397" selection-start-column="0" selection-end-line="397" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>

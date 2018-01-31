@@ -6,16 +6,31 @@ import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
 import kotlinx.coroutines.experimental.runBlocking
 import org.junit.Test
+import java.io.Externalizable
+import java.io.ObjectInput
+import java.io.ObjectOutput
 import java.util.concurrent.CompletableFuture
 
 interface Service {
     fun executeRun(data: Int): CompletableFuture<Double>
 }
+
 @SimonRemote(Service::class)
 class ServiceImpl: Service {
     override fun executeRun(data: Int) = future<Double> {
         42.0 + data
     }
+}
+
+class StupidClass(value: Int): Externalizable {
+
+    override fun readExternal(input: ObjectInput) {
+
+    }
+
+    override fun writeExternal(output: ObjectOutput) {
+    }
+
 }
 
 class ThingyEmpoweropsTest {
@@ -38,7 +53,8 @@ class ThingyEmpoweropsTest {
 
         val server = lookup.lookup("service") as Service
 
-        val result = server.executeRun(42).await()
+        val rawResult = server.executeRun(42)
+        val result = rawResult.await()
 
         println("got $result!")
     }

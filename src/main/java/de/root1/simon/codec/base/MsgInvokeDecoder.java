@@ -73,7 +73,7 @@ public class MsgInvokeDecoder extends AbstractMessageDecoder {
             Object[] args = new Object[argsLength];
             for (int i = 0; i < argsLength; i++) {
                 try {
-                    args[i] = in.getObject(SimonClassLoaderHelper.getClassLoader(Simon.class));
+                    args[i] = UserObjectSerializer.readUserObject(in);
                 } catch (Exception ex) {
                     Exception ex1 = new Exception("Problem reading method argument. Maybe argument isn't serializable?!");
                     ex1.initCause(ex.getCause());

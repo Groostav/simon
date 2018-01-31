@@ -48,3 +48,4 @@ public class MsgInvokeReturn extends AbstractMessage {
         return getSequence() + ":MsgInvokeReturn(" + returnValue + ')';
     }
 }
+
