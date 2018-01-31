@@ -28,6 +28,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <kotlin.version>1.2.21</kotlin.version>
     </properties>
 
     <dependencies>
@@ -36,6 +37,25 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>0.22.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-jdk8 -->
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-jdk8</artifactId>
+            <version>0.22.1</version>
         </dependency>
 
         <dependency>
@@ -109,7 +129,13 @@
         </snapshotRepository>      
     </distributionManagement>  
 
+
+
     <build>
+
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+
         <!-- Required for ftp repo -->
 <!--
         <extensions>
@@ -152,6 +178,29 @@
                     </reportPlugins>
                 </configuration>
             </plugin>-->
+
+            <plugin>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <version>${kotlin.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals> <goal>compile</goal> </goals>
+                    </execution>
+
+                    <execution>
+                        <id>test-compile</id>
+                        <goals> <goal>test-compile</goal> </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <experimentalCoroutines>enable</experimentalCoroutines>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -164,9 +213,6 @@
                         </goals>
                     </execution>
                 </executions>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
             </plugin>
 
             <plugin>
@@ -175,7 +221,6 @@
                 <version>2.10.2</version>
                 <configuration>
                     <failOnError>false</failOnError>
-					<skipTests>true</skipTests>
                 </configuration>
                 <executions>
                     <execution>
@@ -197,7 +242,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-					<skipTests>true</skipTests>
                     <source>1.8</source>
                     <target>1.8</target>
                     <encoding>UTF-8</encoding>
@@ -214,7 +258,6 @@
                         <!-- <descriptorRef>project</descriptorRef> available with plugin version >= 2.2-->
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-					<skipTests>true</skipTests>
                 </configuration>
 
                 <!-- extend phase package to assembly the archives -->
@@ -243,10 +286,9 @@
                     <forkMode>pertest</forkMode>
                     <childDelegation>false</childDelegation>
                     <useFile>true</useFile>
-                    <!--<includes>
-                        <include>**/*Test.*</include>
-                    </includes>-->
-					<skipTests>true</skipTests>
+                    <includes>
+                        <include>**/*EmpoweropsTest.*</include>
+                    </includes>
                     <systemProperties>
                         <property>
                             <name>java.util.logging.config.file</name>
