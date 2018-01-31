@@ -22,17 +22,6 @@ class ServiceImpl: Service {
     }
 }
 
-class StupidClass(value: Int): Externalizable {
-
-    override fun readExternal(input: ObjectInput) {
-
-    }
-
-    override fun writeExternal(output: ObjectOutput) {
-    }
-
-}
-
 class ThingyEmpoweropsTest {
 
     @Test fun `running server and client should work with completable futures nicely!`(){
