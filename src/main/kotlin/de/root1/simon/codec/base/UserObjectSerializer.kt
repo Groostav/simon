@@ -23,6 +23,11 @@ object UserObjectSerializer {
         UserDecoders += type to (decoder as Decoder<Any>)
     }
 
+    @JvmStatic fun clear(){
+        UserEncoders = emptyMap()
+        UserDecoders = emptyMap()
+    }
+
     @Throws(ClassNotFoundException::class)
     @JvmStatic fun readUserObject(input: IoBuffer): Any? {
 

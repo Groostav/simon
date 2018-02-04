@@ -9,6 +9,7 @@ import de.root1.simon.codec.base.UserObjectSerializer
 import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
 import kotlinx.coroutines.experimental.runBlocking
+import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -22,15 +23,16 @@ interface Service {
     fun executeExceptionRun(data: Int): CompletableFuture<Double>
 
     // starting to look like our actual code!
-    fun executeDependentRuns(dag: Node): CompletableFuture<String> = future<String> {
-        dag.bfs().joinToString("-")
-    }
+    fun executeDependentRuns(dag: Node): CompletableFuture<String>
+
+    fun <T> identity(input: T): T
 }
 
 class BlamException(val data: Int): RuntimeException("Blam $data!")
 
 @SimonRemote(Service::class)
 class ServiceImpl: Service {
+
     override fun executeRun(data: Int) = future<Double> {
         42.0 + data
     }
@@ -38,6 +40,12 @@ class ServiceImpl: Service {
     override fun executeExceptionRun(data: Int) = future<Double> {
         throw BlamException(data)
     }
+
+    override fun executeDependentRuns(dag: Node) = future<String> {
+        dag.bfs().mapIndexed { idx, v -> v.value + idx }.joinToString("-")
+    }
+
+    override fun <T> identity(input: T): T = input
 }
 
 data class Node(val value: String, val parents: List<Node> = emptyList(), var children: List<Node> = emptyList()){
@@ -45,8 +53,13 @@ data class Node(val value: String, val parents: List<Node> = emptyList(), var ch
     override fun toString() = value //avoid stack-overflow
     override fun hashCode() = value.hashCode()
     override fun equals(other: Any?) = value == (other as? Node)?.value
+
+    fun deepEquals(other: Node) = bfs().toList() == other.bfs().toList()
 }
 
+/**
+ * generates a sequence representing a flattened depedency-aware pre-order traversal
+ */
 fun Node.bfs(): Sequence<Node> {
     val start = generateSequence(this) { it.parents.firstOrNull() }.last()
     val queue: Queue<Node> = LinkedList<Node>().also { it.add(start) }
@@ -73,6 +86,16 @@ fun Node.bfs(): Sequence<Node> {
     }
 }
 
+/**
+ * A simple node DAG that is in the form
+ * ```
+ *     top
+ *    /  \
+ * left   right
+ *    \  /
+ *   bottom
+ * ```
+ */
 val DiamondDag = Node("top").apply top@ {
     children = listOf(
             Node("left", listOf(this@top)),
@@ -106,6 +129,8 @@ class ThingyEmpoweropsTest {
         }
     }
 
+    @After fun `clean up user supplied encoding decoding`(){ UserObjectSerializer.clear() }
+
     @Test fun `when using simple happy path completable future should properly send and recieve values`() = runBlocking {
         val service = lookup.lookup("service") as Service
         val futureResult = service.executeRun(42)
@@ -127,8 +152,18 @@ class ThingyEmpoweropsTest {
         assert(exception.message == "Blam 43!")
     }
 
-    @Test fun `when using stupid dag code should work properly`(){
+    @Test fun `when using stupid dag code should bfs properly`(){
         assert(DiamondDag.bfs().joinToString("-") == "top-left-right-bottom")
+    }
+
+    @Test fun `when using a complex dag should properly encode and decode`(){
+        val xstream = XStream()
+        UserObjectSerializer.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
+        val service = lookup.lookup("service") as Service
+
+        val rawExceptionResult = service.identity(DiamondDag)
+
+        assert(rawExceptionResult == DiamondDag && rawExceptionResult !== DiamondDag)
     }
 
     @Test fun `when attempting to call code with complex argument and lazy result should properly return to me!`() = runBlocking {
@@ -139,7 +174,7 @@ class ThingyEmpoweropsTest {
         val service = lookup.lookup("service") as Service
         val result = service.executeDependentRuns(DiamondDag).await()
 
-        assert(result == "top-left-right-bottom")
-
+        assert(result == "top0-left1-right2-bottom3")
+        //neat.
     }
 }

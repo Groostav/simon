@@ -581,10 +581,11 @@ public class ProcessMessageRunnable implements Runnable {
         }
 
         // a return value can be "null" ... this has to be serialized to the client
-        if (result != null && !(result instanceof Serializable)) {
-            logger.warn("Result '{}' is not serializable", result);
-            result = new SimonRemoteException("Result of method '" + method + "' must be serializable and therefore implement 'java.io.Serializable' or 'de.root1.simon.SimonRemote'");
-        }
+        //TODO: not this code's problem.
+//        if (result != null && !(result instanceof Serializable)) {
+//            logger.warn("Result '{}' is not serializable", result);
+//            result = new SimonRemoteException("Result of method '" + method + "' must be serializable and therefore implement 'java.io.Serializable' or 'de.root1.simon.SimonRemote'");
+//        }
 
         MsgInvokeReturn returnMsg = new MsgInvokeReturn();
         returnMsg.setSequence(msg.getSequence());
