@@ -6,8 +6,8 @@ import java.io.Serializable
 import java.util.*
 import kotlin.coroutines.experimental.buildSequence
 
-typealias Encoder = (Any) -> String
-typealias Decoder = (String) -> Any
+typealias Encoder<T> = (T) -> String
+typealias Decoder<T> = (String) -> T
 
 @Suppress("UsePropertyAccessSyntax")
 object UserObjectSerializer {
@@ -15,8 +15,13 @@ object UserObjectSerializer {
     val FromUTF8 = Charsets.UTF_8.newDecoder()
     val ToUTF8 = Charsets.UTF_8.newEncoder()
 
-    private var UserDecoders: Map<Class<*>, Decoder> = emptyMap()
-    private var UserEncoders: Map<Class<*>, Encoder> = emptyMap()
+    private var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap()
+    private var UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
+
+    @JvmStatic fun <T> addSerializer(type: Class<T>, encoder: Encoder<T>, decoder: Decoder<T>){
+        UserEncoders += type to (encoder as Encoder<Any>)
+        UserDecoders += type to (decoder as Decoder<Any>)
+    }
 
     @Throws(ClassNotFoundException::class)
     @JvmStatic fun readUserObject(input: IoBuffer): Any? {
