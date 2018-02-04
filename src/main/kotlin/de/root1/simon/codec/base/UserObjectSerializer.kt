@@ -19,12 +19,13 @@ object UserObjectSerializer {
     private var UserEncoders: Map<Class<*>, Encoder> = emptyMap()
 
     @Throws(ClassNotFoundException::class)
-    @JvmStatic fun readUserObject(input: IoBuffer): Any {
+    @JvmStatic fun readUserObject(input: IoBuffer): Any? {
 
         val type = input.getEnum(ObjectCode::class.java)!!
 
-        //TODO: checkbytecode for kotlin's boxing-unboxing behaviour.
-        val result: Any = when(type){
+        //TODO: check bytecode for kotlin's boxing-unboxing behaviour.
+        val result: Any? = when(type){
+            NULL -> null
             INT -> input.getInt()
             DOUBLE -> input.getDouble()
             //...etcetc
@@ -42,17 +43,18 @@ object UserObjectSerializer {
         return result
     }
 
-    @JvmStatic fun writeUserObject(obj: Any, output: IoBuffer){
+    @JvmStatic fun writeUserObject(obj: Any?, output: IoBuffer){
 
         val type = ObjectCode[obj]
 
         output.putEnum(type)
 
         when(type){
+            NULL -> { /*noop, written header will signal reader*/ }
             INT -> output.putInt(obj as Int)
             DOUBLE -> output.putDouble(obj as Double)
             UNKNOWN -> {
-                val name = obj.javaClass
+                val name = obj!!.javaClass
                 output.putPrefixedString(name.name, ToUTF8)
 
                 val supertypeSequence = superClassSequence(name) + superInterfaceSequence(name)
@@ -68,6 +70,7 @@ object UserObjectSerializer {
 }
 
 enum class ObjectCode {
+    NULL,
     INT,
     DOUBLE,
     //TODO: all primatives, maybe String also?
@@ -75,7 +78,8 @@ enum class ObjectCode {
     ;
 
     companion object {
-        operator fun get(obj: Any) = when(obj){
+        inline operator fun get(obj: Any?) = when(obj){
+            null -> NULL
             is Double -> DOUBLE
             is Int -> INT
             else -> UNKNOWN

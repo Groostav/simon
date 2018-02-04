@@ -547,10 +547,8 @@ public class ProcessMessageRunnable implements Runnable {
             if(result instanceof CompletableFuture){
                 int outstandingId = dispatcher.generateSequenceId();
 
-                ((CompletableFuture) result).whenComplete((v, x) -> {
-                    Object asyncResult = v == null ? x : v;
-
-                    dispatcher.publishAsyncResultToPeer(session, outstandingId, asyncResult);
+                ((CompletableFuture<?>) result).whenComplete((value, exception) -> {
+                    dispatcher.publishAsyncResultToPeer(session, outstandingId, value, exception);
                 });
 
                 result = new CompletableFutureSurrogate(outstandingId);
@@ -784,6 +782,6 @@ public class ProcessMessageRunnable implements Runnable {
 
         MsgAsyncComputationFinished msg = (MsgAsyncComputationFinished) abstractMessage;
 
-        dispatcher.publishAsyncResultLocally(msg.getSequence(), msg.getReturnValue());
+        dispatcher.publishAsyncResultLocally(msg.getSequence(), msg.getReturnValue(), msg.getThrown());
     }
 }

@@ -19,6 +19,7 @@
 package de.root1.simon;
 
 import de.root1.simon.codec.base.CompletableFutureSurrogate;
+import de.root1.simon.codec.base.HelpersKt;
 import de.root1.simon.exceptions.RawChannelException;
 import de.root1.simon.codec.messages.*;
 import de.root1.simon.exceptions.InvokeTimeoutException;
@@ -66,9 +67,11 @@ public class Dispatcher implements IoHandler {
     private final Map<Integer, Object> requestMonitorAndResultMap = Collections.synchronizedMap(new HashMap<Integer, Object>());
 
     /**
-     * The map that holds async results. TODO
+     * The map that holds async results. TODO better docs
      */
-    private final Map<Integer, Object> asyncResultsMap = Collections.synchronizedMap(new HashMap<Integer, Object>());
+    //note: do not perform any conjecture on the type put int his map,
+    // or ir you do, consider a proxy'd object with a signature of CompletableFuture<CompletableFuture<X>>
+    private final Map<Integer, CompletableFuture<?>> asyncResultsMap = Collections.synchronizedMap(new HashMap<Integer, CompletableFuture<?>>());
     /**
      * This map contains pairs of sessions and list of open requests This is
      * needed to do a clean shutdown of a session
@@ -758,18 +761,18 @@ public class Dispatcher implements IoHandler {
         if(o instanceof MsgInvokeReturn) {
 
             MsgInvokeReturn msgInvokeReturn = (MsgInvokeReturn) o;
+            Object existingReturnValue = msgInvokeReturn.getReturnValue();
 
-            if(msgInvokeReturn.getReturnValue() instanceof CompletableFutureSurrogate){
+            if(existingReturnValue instanceof CompletableFutureSurrogate){
+                CompletableFutureSurrogate actual = (CompletableFutureSurrogate) existingReturnValue;
 
-                CompletableFutureSurrogate actual = (CompletableFutureSurrogate) msgInvokeReturn.getReturnValue();
                 int id = actual.getOutstandingId();
 
                 CompletableFuture result;
 
                 synchronized (asyncResultsMap){
                     if(asyncResultsMap.containsKey(id)){
-                        Object asyncResult = asyncResultsMap.get(id);
-                        result = CompletableFuture.completedFuture(asyncResult);
+                        result = asyncResultsMap.get(id);
                     }
                     else {
                         result = new CompletableFuture();
@@ -1282,26 +1285,25 @@ public class Dispatcher implements IoHandler {
         is.closeNow();
     }
 
-    public void publishAsyncResultToPeer(IoSession session, int outstandingId, Object asyncResult) {
+    public void publishAsyncResultToPeer(IoSession session, int outstandingId, Object asyncResult, Throwable exception) {
         checkForInvalidState(session, "publishAsyncResult()");
         //logger.debug?
 
         MsgAsyncComputationFinished msgAsyncFinished = new MsgAsyncComputationFinished();
         msgAsyncFinished.setSequence(outstandingId);
+
+        assert asyncResult == null ^ exception == null;
+
+        msgAsyncFinished.setThrown(exception);
         msgAsyncFinished.setReturnValue(asyncResult);
 
         session.write(msgAsyncFinished);
     }
 
-    public void publishAsyncResultLocally(int outstandingId, Object asyncResult){
-        synchronized (asyncResultsMap){
-            if(asyncResultsMap.containsKey(outstandingId)){
-                CompletableFuture existingFuture = (CompletableFuture) asyncResultsMap.get(outstandingId);
-                existingFuture.complete(asyncResult);
-            }
-            else {
-                asyncResultsMap.put(outstandingId, asyncResult);
-            }
-        }
+    @SuppressWarnings("unchecked") //our data structure is fundementally carrying despirate generic types.
+    // the best we can do, with a few extra object allocations, is reify the user's completableFuture type and do a dynamic type check here.
+    // and simon seems more concerned with classloaders than I've seen so it might be better to let that slide...
+    public void publishAsyncResultLocally(int outstandingId, Object asyncResult, Throwable exception){
+        HelpersKt.complete((Map)asyncResultsMap, outstandingId, asyncResult, exception);
     }
 }

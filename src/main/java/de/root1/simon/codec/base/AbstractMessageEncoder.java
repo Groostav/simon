@@ -44,7 +44,7 @@ public abstract class AbstractMessageEncoder<T extends AbstractMessage> implemen
     private MsgError msgError = null;
 
     @Override
-    public void encode(IoSession session, T message, ProtocolEncoderOutput out) throws Exception {
+    public final void encode(IoSession session, T message, ProtocolEncoderOutput out) throws Exception {
         
         IoBuffer buf = null;
         try {

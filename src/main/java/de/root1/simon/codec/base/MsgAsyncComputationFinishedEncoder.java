@@ -11,9 +11,10 @@ public class MsgAsyncComputationFinishedEncoder<T extends MsgAsyncComputationFin
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    protected void encodeBody(IoSession session, T message, IoBuffer out) {
+    protected void encodeBody(IoSession session, MsgAsyncComputationFinished message, IoBuffer out) {
         logger.trace("begin. message={}", message);
 
+        UserObjectSerializer.writeUserObject(message.getThrown(), out);
         UserObjectSerializer.writeUserObject(message.getReturnValue(), out);
 
         /*
