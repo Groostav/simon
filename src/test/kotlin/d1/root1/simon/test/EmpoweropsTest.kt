@@ -1,5 +1,7 @@
 package d1.root1.simon.test
 
+import com.google.common.eventbus.EventBus
+import com.google.common.eventbus.Subscribe
 import com.thoughtworks.xstream.XStream
 import de.root1.simon.Lookup
 import de.root1.simon.Registry
@@ -8,11 +10,14 @@ import de.root1.simon.annotation.SimonRemote
 import de.root1.simon.codec.base.UserObjectSerializer
 import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.time.delay
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
+import java.time.Duration
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.coroutines.experimental.buildSequence
@@ -178,3 +183,93 @@ class ThingyEmpoweropsTest {
         //neat.
     }
 }
+
+object EventBusTests {
+//object EventBusTests {
+
+    @JvmStatic fun main(args: Array<String>){
+//    @Test fun `when attempting to move event busses around`(){
+        ServerSide.run()
+        ClientSide.run()
+    }
+
+}
+
+interface ProxyableEventSource{
+    fun register(wrapper: ProxyableEventSink)
+}
+
+@SimonRemote class ProxyableEventSourceImpl(val eventBus: EventBus): ProxyableEventSource {
+
+   override fun register(wrapper: ProxyableEventSink){
+     eventBus.register(wrapper)
+   }
+
+}
+
+interface ProxyableEventSink{
+    @Subscribe fun syndicateOn(obj: Any)
+}
+@SimonRemote class ProxyableEventSinkImpl(val eventBus: EventBus): ProxyableEventSink {
+
+   override fun syndicateOn(obj: Any){
+     eventBus.post(obj)
+   }
+
+}
+
+
+object ClientSide {
+
+    fun run(){
+        val lookup = Simon.createNameLookup("127.0.0.1")
+
+        val eventBus = EventBus("global event bus --client")
+
+        val proxy = lookup.lookup("global event bus") as ProxyableEventSource
+        proxy.register(ProxyableEventSinkImpl(eventBus))
+
+        EventBusDuder("Client", eventBus)
+    }
+}
+
+object ServerSide {
+
+    fun run(){
+
+        val registry = Simon.createRegistry().apply { start() }
+        val lookup = Simon.createNameLookup("127.0.0.1")
+
+        val eventBus = EventBus("global event bus")
+        val eventBusProxy = ProxyableEventSourceImpl(eventBus)
+
+        registry.bind(eventBus.identifier(), eventBusProxy)
+
+        EventBusDuder("Server", eventBus)
+    }
+
+}
+private class EventBusDuder(val name: String, val eventBus: EventBus) {
+
+    init {
+        eventBus.register(this)
+    }
+
+    init {
+        launch {
+            while(true) {
+                delay(5.sec)
+
+                println("$name is posting")
+                eventBus.post("Blam-from-$name!")
+            }
+        }
+    }
+
+    @Subscribe fun logMessageOn(event: String){
+        println("$name saw message '$event'")
+    }
+}
+
+
+val Int.sec: Duration get() = Duration.ofSeconds(this.toLong())

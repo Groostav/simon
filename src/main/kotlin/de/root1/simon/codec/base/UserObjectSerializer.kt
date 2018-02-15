@@ -9,6 +9,22 @@ import kotlin.coroutines.experimental.buildSequence
 typealias Encoder<T> = (T) -> String
 typealias Decoder<T> = (String) -> T
 
+
+//TODO: convert this to an injected object.
+// ok so then, what data type is the most resiliant to serialization? --as in, which serializer is most serializable?
+//    - remember that if somebody creates a simon instance with some set of serializers, how do we know that the client has the same set?
+//      do we leave that to user configuration? what kinds of errors should the expect if they fuckup the configuration?
+//
+// one strategy might be to serialize serializers.
+//    - This is what mapDB did, and then of course stopped.
+//    - in this sense, if you add something client side, it will request loading server side. That gives a nice error, doesnt it?
+//      well, except that closures (ie anon inner classes) are going to need constructor arguments, almost always.
+//
+// best bet might be to detect serialization smartly, with a single bit on the message indicating
+// if the default strategy was used or if a custom one was used, then, on the other side, when deserializing,
+// if the bit is set but no custom serializer is found it logs a warning/severe.
+// this doesnt cover bad configuration, but it does cover _forgetting_ to do configuration.
+
 @Suppress("UsePropertyAccessSyntax")
 object UserObjectSerializer {
 
