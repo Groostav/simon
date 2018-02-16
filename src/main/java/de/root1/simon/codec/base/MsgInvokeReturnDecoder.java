@@ -38,10 +38,11 @@ import de.root1.simon.codec.messages.SimonMessageConstants;
 public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final SerializerSet serializers = SerializerSet.INSTANCE;
+    private final SerializerSet serializers;
 
-    public MsgInvokeReturnDecoder() {
+    public MsgInvokeReturnDecoder(SerializerSet serializers) {
         super(SimonMessageConstants.MSG_INVOKE_RETURN);
+        this.serializers = serializers;
     }
 
     @Override

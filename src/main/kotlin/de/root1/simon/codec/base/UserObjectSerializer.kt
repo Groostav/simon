@@ -31,6 +31,7 @@ interface Serializer<T>{
 // if the bit is set but no custom serializer is found it logs a warning/severe.
 // this doesnt cover bad configuration, but it does cover _forgetting_ to do configuration.
 
+//TODO make immutable
 object SerializerSet {
 
     internal var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap()

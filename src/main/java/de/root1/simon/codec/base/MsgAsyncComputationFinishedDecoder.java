@@ -10,10 +10,11 @@ import org.slf4j.LoggerFactory;
 public class MsgAsyncComputationFinishedDecoder extends AbstractMessageDecoder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final SerializerSet serializers = SerializerSet.INSTANCE;
+    private final SerializerSet serializers;
 
-    public MsgAsyncComputationFinishedDecoder() {
+    public MsgAsyncComputationFinishedDecoder(SerializerSet serializers) {
         super(SimonMessageConstants.MSG_ASYNC_FINISHED);
+        this.serializers = serializers;
     }
 
     @Override

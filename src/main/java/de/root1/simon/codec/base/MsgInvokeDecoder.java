@@ -42,10 +42,11 @@ import org.slf4j.LoggerFactory;
 public class MsgInvokeDecoder extends AbstractMessageDecoder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final SerializerSet serializers = SerializerSet.INSTANCE;
+    private final SerializerSet serializers;
 
-    public MsgInvokeDecoder() {
+    public MsgInvokeDecoder(SerializerSet serializers) {
         super(SimonMessageConstants.MSG_INVOKE);
+        this.serializers = serializers;
     }
 
     @Override

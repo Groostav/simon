@@ -34,7 +34,11 @@ import de.root1.simon.codec.messages.MsgInvokeReturn;
 public class MsgInvokeReturnEncoder<T extends MsgInvokeReturn> extends AbstractMessageEncoder<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final SerializerSet serializers = SerializerSet.INSTANCE;
+    private final SerializerSet serializers;
+
+    public MsgInvokeReturnEncoder(SerializerSet serializers) {
+        this.serializers = serializers;
+    }
 
     @Override
     protected void encodeBody(IoSession session, T message, IoBuffer out) {

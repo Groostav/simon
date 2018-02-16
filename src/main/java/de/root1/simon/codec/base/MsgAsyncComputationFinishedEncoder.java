@@ -9,7 +9,11 @@ import org.slf4j.LoggerFactory;
 public class MsgAsyncComputationFinishedEncoder<T extends MsgAsyncComputationFinished> extends AbstractMessageEncoder<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final SerializerSet serializers = SerializerSet.INSTANCE;
+    private final SerializerSet serializers;
+
+    public MsgAsyncComputationFinishedEncoder(SerializerSet serializers) {
+        this.serializers = serializers;
+    }
 
     @Override
     protected void encodeBody(IoSession session, MsgAsyncComputationFinished message, IoBuffer out) {
