@@ -25,7 +25,7 @@ public class MsgAsyncComputationFinishedDecoder extends AbstractMessageDecoder {
                 MsgError error = new MsgError();
                 error.setErrorMessage("Error while async result: thrown exception is not instance of Throwable");
                 error.setRemoteObjectName(null);
-                error.setThrowable(new ClassCastException("cannot cast "+exception+" to java.lang.Throwable"));
+                exception = new ClassCastException("cannot cast "+exception+" to java.lang.Throwable");
             }
             Object returnValue = UserObjectSerializer.readUserObject(in);
             m.setThrown((Throwable) exception);

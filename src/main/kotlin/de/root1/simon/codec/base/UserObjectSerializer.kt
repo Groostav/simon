@@ -52,14 +52,26 @@ object UserObjectSerializer {
         //TODO: check bytecode for kotlin's boxing-unboxing behaviour.
         val result: Any? = when(type){
             NULL -> null
+
+            BOOL -> input.get() == TRUE_BYTE
+
+            BYTE -> input.get()
+            SHORT -> input.getShort()
             INT -> input.getInt()
+            LONG -> input.getLong()
+
+            FLOAT -> input.getFloat()
             DOUBLE -> input.getDouble()
-            //...etcetc
+
+            CHAR -> input.getChar()
+            STRING -> input.getPrefixedString(4, FromUTF8)
+
             UNKNOWN -> {
-                val name = Class.forName(input.getPrefixedString(FromUTF8))
+                val name = input.getPrefixedString(FromUTF8)
+                val type = Class.forName(name)
                 val value = input.getObject()
 
-                val supertypeSequence = superClassSequence(name) + superInterfaceSequence(name)
+                val supertypeSequence = superClassSequence(type) + superInterfaceSequence(type)
                 val userDecoder = supertypeSequence.firstOrNull { it in UserDecoders.keys }?.let { UserDecoders[it] }
 
                 return userDecoder?.invoke(value as String) ?: value
@@ -77,8 +89,20 @@ object UserObjectSerializer {
 
         when(type){
             NULL -> { /*noop, written header will signal reader*/ }
+
+            BOOL -> output.put(if(obj as Boolean) TRUE_BYTE else FALSE_BYTE)
+
+            BYTE -> output.put(obj as Byte)
+            SHORT -> output.putShort(obj as Short)
             INT -> output.putInt(obj as Int)
+            LONG -> output.putLong(obj as Long)
+
+            FLOAT -> output.putFloat(obj as Float)
             DOUBLE -> output.putDouble(obj as Double)
+
+            CHAR -> output.putChar(obj as Char)
+            STRING -> output.putPrefixedString(obj as String, 4, ToUTF8)
+
             UNKNOWN -> {
                 val name = obj!!.javaClass
                 output.putPrefixedString(name.name, ToUTF8)
@@ -86,7 +110,7 @@ object UserObjectSerializer {
                 val supertypeSequence = superClassSequence(name) + superInterfaceSequence(name)
                 val userEncoder = supertypeSequence.firstOrNull { it in UserEncoders.keys }?.let { UserEncoders[it] }
 
-                val value = userEncoder?.invoke(obj) ?: obj
+                val value: Any = userEncoder?.invoke(obj) ?: obj
 
                 output.putObject(value)
             }
@@ -97,17 +121,44 @@ object UserObjectSerializer {
 
 enum class ObjectCode {
     NULL,
+
+    BOOL,
+
+    BYTE,
+    SHORT,
     INT,
+    LONG,
+
+    FLOAT,
     DOUBLE,
-    //TODO: all primatives, maybe String also?
+
+    CHAR,
+    STRING,
+
+    // other potential special cases:
+    // exceptions - dont do this, since a user exception could have custom serialization rules.
+    //
+
     UNKNOWN,
     ;
 
     companion object {
-        inline operator fun get(obj: Any?) = when(obj){
+        @JvmStatic operator fun get(obj: Any?) = when(obj){
             null -> NULL
-            is Double -> DOUBLE
+
+            is Boolean -> BOOL
+
+            is Byte -> BYTE
+            is Short -> SHORT
             is Int -> INT
+            is Long -> LONG
+
+            is Float -> FLOAT
+            is Double -> DOUBLE
+
+            is Char -> CHAR
+            is String -> STRING
+
             else -> UNKNOWN
         }
     }
@@ -136,3 +187,6 @@ private fun superClassSequence(name: Class<*>) =
         generateSequence(name) { it.superclass.takeUnless { it == Any::class } }
 
 internal data class CompletableFutureSurrogate(val outstandingId: Int): Serializable
+
+val FALSE_BYTE = 0.toByte()
+val TRUE_BYTE = 1.toByte()
