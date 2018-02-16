@@ -1,3 +1,5 @@
+@file:JvmName("UserObjectSerializer")
+
 package de.root1.simon.codec.base
 
 import de.root1.simon.codec.base.ObjectCode.*
@@ -29,8 +31,7 @@ interface Serializer<T>{
 // if the bit is set but no custom serializer is found it logs a warning/severe.
 // this doesnt cover bad configuration, but it does cover _forgetting_ to do configuration.
 
-@Suppress("UsePropertyAccessSyntax")
-object UserObjectSerializer {
+object SerializerSet {
 
     internal var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap()
     internal var UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
@@ -53,11 +54,12 @@ object UserObjectSerializer {
 }
 
 @Throws(ClassNotFoundException::class)
-fun UserObjectSerializer.readUserObject(input: IoBuffer): Any? {
+fun SerializerSet.readUserObject(input: IoBuffer): Any? {
 
     val type = input.getEnum(ObjectCode::class.java)!!
 
     //TODO: check bytecode for kotlin's boxing-unboxing behaviour.
+    @Suppress("UsePropertyAccessSyntax") //for clarity, `get` here is not a simple getter
     val result: Any? = when(type){
         NULL -> null
 
@@ -104,7 +106,7 @@ fun UserObjectSerializer.readUserObject(input: IoBuffer): Any? {
     return result
 }
 
-fun UserObjectSerializer.writeUserObject(obj: Any?, output: IoBuffer){
+fun SerializerSet.writeUserObject(obj: Any?, output: IoBuffer){
 
     val type = ObjectCode[obj]
 

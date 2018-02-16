@@ -18,7 +18,6 @@
  */
 package de.root1.simon.codec.base;
 
-import de.root1.simon.codec.messages.MsgAsyncComputationFinished;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.demux.MessageEncoder;
@@ -35,12 +34,13 @@ import de.root1.simon.codec.messages.MsgInvokeReturn;
 public class MsgInvokeReturnEncoder<T extends MsgInvokeReturn> extends AbstractMessageEncoder<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final SerializerSet serializers = SerializerSet.INSTANCE;
 
     @Override
     protected void encodeBody(IoSession session, T message, IoBuffer out) {
         logger.trace("begin. message={}", message);
 
-        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getReturnValue(), out);
+        UserObjectSerializer.writeUserObject(serializers, message.getReturnValue(), out);
 
         /*
          * There is no need to write the message.getErrorMsg() string back to the client

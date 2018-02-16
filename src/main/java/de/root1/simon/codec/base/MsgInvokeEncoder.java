@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 public class MsgInvokeEncoder<T extends MsgInvoke> extends AbstractMessageEncoder<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private SerializerSet serializers = SerializerSet.INSTANCE;
 
     @Override
     protected void encodeBody(IoSession session, T message, IoBuffer out) {
@@ -62,7 +63,7 @@ public class MsgInvokeEncoder<T extends MsgInvoke> extends AbstractMessageEncode
             for (int i = 0; i < argsLen; i++) {
                 Object argument = message.getArguments()[i];
                 logger.trace("args[{}]={}", i, argument);
-                UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, argument, out);
+                UserObjectSerializer.writeUserObject(serializers, argument, out);
             }
 
         } catch (Exception e) {

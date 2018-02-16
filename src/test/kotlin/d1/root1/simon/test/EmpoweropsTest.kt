@@ -1,23 +1,18 @@
 package d1.root1.simon.test
 
-import com.google.common.eventbus.EventBus
-import com.google.common.eventbus.Subscribe
 import com.thoughtworks.xstream.XStream
 import de.root1.simon.Lookup
 import de.root1.simon.Registry
 import de.root1.simon.Simon
 import de.root1.simon.annotation.SimonRemote
-import de.root1.simon.codec.base.UserObjectSerializer
+import de.root1.simon.codec.base.SerializerSet
 import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.runBlocking
-import kotlinx.coroutines.experimental.time.delay
 import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
-import java.time.Duration
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.coroutines.experimental.buildSequence
@@ -134,7 +129,7 @@ class ThingyEmpoweropsTest {
         }
     }
 
-    @After fun `clean up user supplied encoding decoding`(){ UserObjectSerializer.clear() }
+    @After fun `clean up user supplied encoding decoding`(){ SerializerSet.clear() }
 
     @Test fun `when using simple happy path completable future should properly send and recieve values`() = runBlocking {
         val service = lookup.lookup("service") as Service
@@ -163,7 +158,7 @@ class ThingyEmpoweropsTest {
 
     @Test fun `when using a complex dag should properly encode and decode`(){
         val xstream = XStream()
-        UserObjectSerializer.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
+        SerializerSet.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
         val service = lookup.lookup("service") as Service
 
         val rawExceptionResult = service.identity(DiamondDag)
@@ -174,7 +169,7 @@ class ThingyEmpoweropsTest {
     @Test fun `when attempting to call code with complex argument and lazy result should properly return to me!`() = runBlocking {
 
         val xstream = XStream()
-        UserObjectSerializer.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
+        SerializerSet.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
 
         val service = lookup.lookup("service") as Service
         val result = service.executeDependentRuns(DiamondDag).await()

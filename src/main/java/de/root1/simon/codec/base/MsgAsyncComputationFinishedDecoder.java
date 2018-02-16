@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 public class MsgAsyncComputationFinishedDecoder extends AbstractMessageDecoder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final SerializerSet serializers = SerializerSet.INSTANCE;
 
     public MsgAsyncComputationFinishedDecoder() {
         super(SimonMessageConstants.MSG_ASYNC_FINISHED);
@@ -20,14 +21,14 @@ public class MsgAsyncComputationFinishedDecoder extends AbstractMessageDecoder {
 
         MsgAsyncComputationFinished m = new MsgAsyncComputationFinished();
         try {
-            Object exception = UserObjectSerializerKt.readUserObject(UserObjectSerializer.INSTANCE, in);
+            Object exception = UserObjectSerializer.readUserObject(serializers, in);
             if(exception != null && !(exception instanceof Throwable)){
                 MsgError error = new MsgError();
                 error.setErrorMessage("Error while async result: thrown exception is not instance of Throwable");
                 error.setRemoteObjectName(null);
                 exception = new ClassCastException("cannot cast "+exception+" to java.lang.Throwable");
             }
-            Object returnValue = UserObjectSerializerKt.readUserObject(UserObjectSerializer.INSTANCE, in);
+            Object returnValue = UserObjectSerializer.readUserObject(serializers, in);
             m.setThrown((Throwable) exception);
             m.setReturnValue(returnValue);
         }

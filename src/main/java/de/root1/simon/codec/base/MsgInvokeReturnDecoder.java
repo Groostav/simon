@@ -18,7 +18,6 @@
  */
 package de.root1.simon.codec.base;
 
-import de.root1.simon.Simon;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolDecoderOutput;
@@ -30,7 +29,6 @@ import de.root1.simon.codec.messages.AbstractMessage;
 import de.root1.simon.codec.messages.MsgError;
 import de.root1.simon.codec.messages.MsgInvokeReturn;
 import de.root1.simon.codec.messages.SimonMessageConstants;
-import de.root1.simon.utils.SimonClassLoaderHelper;
 
 /**
  * A {@link MessageDecoder} that decodes {@link MsgInvokeReturn}.
@@ -40,6 +38,7 @@ import de.root1.simon.utils.SimonClassLoaderHelper;
 public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final SerializerSet serializers = SerializerSet.INSTANCE;
 
     public MsgInvokeReturnDecoder() {
         super(SimonMessageConstants.MSG_INVOKE_RETURN);
@@ -51,7 +50,7 @@ public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
 
         MsgInvokeReturn m = new MsgInvokeReturn();
         try {
-            Object returnValue = UserObjectSerializerKt.readUserObject(UserObjectSerializer.INSTANCE, in);
+            Object returnValue = UserObjectSerializer.readUserObject(serializers, in);
             m.setReturnValue(returnValue);
         } catch (ClassNotFoundException e) {
             MsgError error = new MsgError();

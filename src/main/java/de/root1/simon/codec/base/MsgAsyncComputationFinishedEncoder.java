@@ -9,13 +9,14 @@ import org.slf4j.LoggerFactory;
 public class MsgAsyncComputationFinishedEncoder<T extends MsgAsyncComputationFinished> extends AbstractMessageEncoder<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final SerializerSet serializers = SerializerSet.INSTANCE;
 
     @Override
     protected void encodeBody(IoSession session, MsgAsyncComputationFinished message, IoBuffer out) {
         logger.trace("begin. message={}", message);
 
-        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getThrown(), out);
-        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getReturnValue(), out);
+        UserObjectSerializer.writeUserObject(serializers, message.getThrown(), out);
+        UserObjectSerializer.writeUserObject(serializers, message.getReturnValue(), out);
 
         /*
          * There is no need to write the message.getErrorMsg() string back to the client
