@@ -19,6 +19,7 @@
 package de.root1.simon;
 
 import de.root1.simon.codec.SimonProxyFilter;
+import de.root1.simon.codec.base.SerializerSet;
 import de.root1.simon.codec.base.SimonProtocolCodecFactory;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.ssl.SslContextFactory;
@@ -186,7 +187,7 @@ abstract class AbstractLookup implements Lookup {
      * @throws EstablishConnectionFailed if connection to server can't be
      * established
      */
-    SessionDispatcherContainer buildSessionDispatcherContainer(String remoteObjectName, InetAddress serverAddress, int serverPort, SslContextFactory sslContextFactory, SimonProxyConfig proxyConfig) throws EstablishConnectionFailed {
+    SessionDispatcherContainer buildSessionDispatcherContainer(String remoteObjectName, InetAddress serverAddress, int serverPort, SslContextFactory sslContextFactory, SerializerSet serializers, SimonProxyConfig proxyConfig) throws EstablishConnectionFailed {
 
         Dispatcher dispatcher = null;
         IoSession session = null;
@@ -267,7 +268,7 @@ abstract class AbstractLookup implements Lookup {
                     throw new IllegalArgumentException(e);
                 }
 
-                protocolFactory.setup(false);
+                protocolFactory.setup(serializers, false);
                 filters.add(new FilterEntry(protocolFactory.getClass().getName(), new ProtocolCodecFilter(protocolFactory)));
 
                 // setup for proxy connection if necessary

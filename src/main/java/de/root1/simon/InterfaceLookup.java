@@ -18,6 +18,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.SerializerSet;
 import de.root1.simon.codec.messages.MsgInterfaceLookupReturn;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
@@ -43,6 +44,7 @@ public class InterfaceLookup extends AbstractLookup {
     private final static Logger logger = LoggerFactory.getLogger(InterfaceLookup.class);
     private final InetAddress serverAddress;
     private final int serverPort;
+    private final SerializerSet serializers;
     private SslContextFactory sslContextFactory;
     private SimonProxyConfig proxyConfig;
     private ClassLoader classLoader;
