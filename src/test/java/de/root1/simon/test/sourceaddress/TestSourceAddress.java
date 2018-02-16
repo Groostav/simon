@@ -65,10 +65,10 @@ public class TestSourceAddress {
             logger.info("bound roi to registry ...");
             Lookup lookup = Simon.createInterfaceLookup("127.0.0.1",PORT);
 
-            logger.info("canonical interface name: "+RemoteObject.class.getCanonicalName());
+            logger.info("canonical interface name: "+RemoteObject.class.getName());
 
             lookup.setSourceAddress(Inet4Address.getByName("127.0.1.1"));
-            RemoteObject roiRemote = (RemoteObject) lookup.lookup(RemoteObject.class.getCanonicalName());
+            RemoteObject roiRemote = (RemoteObject) lookup.lookup(RemoteObject.class.getName());
 
             logger.info("roi lookup done");
 
@@ -89,9 +89,9 @@ public class TestSourceAddress {
             
             Lookup lookup2 = Simon.createInterfaceLookup("127.0.0.1",PORT);
 
-            logger.info("canonical interface name: "+RemoteObject.class.getCanonicalName());
+            logger.info("canonical interface name: "+RemoteObject.class.getName());
 
-            RemoteObject roiRemote2 = (RemoteObject) lookup2.lookup(RemoteObject.class.getCanonicalName());
+            RemoteObject roiRemote2 = (RemoteObject) lookup2.lookup(RemoteObject.class.getName());
 
             logger.info("roi lookup done");
 

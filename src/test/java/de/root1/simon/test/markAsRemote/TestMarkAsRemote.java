@@ -78,7 +78,7 @@ public class TestMarkAsRemote {
 
             registry.bind("test", markedAsRemote);
             InterfaceLookup lookup = (InterfaceLookup) Simon.createInterfaceLookup("127.0.0.1",PORT);
-            Object o = lookup.lookup(IPojo.class.getCanonicalName());
+            Object o = lookup.lookup(IPojo.class.getName());
             logger.info("o={}", o);
             IPojo remotePojo = (IPojo) o;
 

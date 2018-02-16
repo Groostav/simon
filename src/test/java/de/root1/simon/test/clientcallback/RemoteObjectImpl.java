@@ -44,7 +44,7 @@ public class RemoteObjectImpl implements RemoteObject {
     
     @Override
     public boolean equals(Object obj) {
-        logger.info("EQUALS ON "+this.getClass().getCanonicalName()+" CALLED! this="+this+" other="+obj);
+        logger.info("EQUALS ON "+this.getClass().getName()+" CALLED! this="+this+" other="+obj);
         return super.equals(obj);
     }
 

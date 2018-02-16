@@ -63,9 +63,9 @@ public class TestInterfaceLookup {
             logger.info("bound roi to registry ...");
             Lookup lookup = Simon.createInterfaceLookup("127.0.0.1", PORT);
 
-            logger.info("canonical interface name: "+RemoteObject.class.getCanonicalName());
+            logger.info("canonical interface name: "+RemoteObject.class.getName());
 
-            RemoteObject roiRemote = (RemoteObject) lookup.lookup(RemoteObject.class.getCanonicalName());
+            RemoteObject roiRemote = (RemoteObject) lookup.lookup(RemoteObject.class.getName());
 
             logger.info("roi lookup done");
 
@@ -95,7 +95,7 @@ public class TestInterfaceLookup {
 
             
 
-            RemoteObject roiRemote2 = (RemoteObject) lookup.lookup(RemoteObject.class.getCanonicalName());
+            RemoteObject roiRemote2 = (RemoteObject) lookup.lookup(RemoteObject.class.getName());
             roiRemote2.helloWorld();
             lookup2.release(roiRemote2);
 

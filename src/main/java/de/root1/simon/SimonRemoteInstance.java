@@ -122,7 +122,7 @@ public class SimonRemoteInstance implements Serializable {
             logger.trace("SimonRemoteObject has defined interfaces in it's annotation");
 
             for (Class interfaceClazz : remoteInterfacesInAnnotation) {
-                String clazzName = interfaceClazz.getCanonicalName();
+                String clazzName = interfaceClazz.getName();
                 logger.trace("Adding {} to the list of remote interfaces", clazzName);
                 interfaceNames.add(clazzName);
             }

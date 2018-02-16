@@ -56,7 +56,7 @@ public class TestSimonExceptionFlow {
         registry.bind("eroi", roi);
 
         lookup = Simon.createInterfaceLookup("127.0.0.1", PORT);
-        eroiRemote = (ExceptionalRemoteObject) lookup.lookup(ExceptionalRemoteObject.class.getCanonicalName());
+        eroiRemote = (ExceptionalRemoteObject) lookup.lookup(ExceptionalRemoteObject.class.getName());
 
         logger.info("eroi registration done");
 

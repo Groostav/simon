@@ -42,7 +42,7 @@ public class MsgNameLookupReturn extends AbstractMessage {
 //        interfaces = new Class<?>[1];
 //        interfaces[0] = Object.class;
         interfaces = new String[1];
-        interfaces[0] = Object.class.getCanonicalName();
+        interfaces[0] = Object.class.getName();
         logger.trace("interfaces.length={}", interfaces.length);
     }
 

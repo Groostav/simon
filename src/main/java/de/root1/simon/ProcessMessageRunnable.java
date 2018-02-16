@@ -322,7 +322,7 @@ public class ProcessMessageRunnable implements Runnable {
                 interfaces = container.getRemoteObjectInterfaces();
                 interfaceNames = new String[interfaces.length];
                 for (int i = 0; i < interfaceNames.length; i++) {
-//                    interfaceNames[i] = interfaces[i].getCanonicalName();
+//                    interfaceNames[i] = interfaces[i].getName();
                     interfaceNames[i] = interfaces[i].getName();
                 }
             } else {
@@ -331,7 +331,7 @@ public class ProcessMessageRunnable implements Runnable {
 
                 interfaceNames = new String[interfaces.length];
                 for (int i = 0; i < interfaceNames.length; i++) {
-//                    interfaceNames[i] = interfaces[i].getCanonicalName();
+//                    interfaceNames[i] = interfaces[i].getName();
                     interfaceNames[i] = interfaces[i].getName();
                     
                 }
@@ -367,7 +367,7 @@ public class ProcessMessageRunnable implements Runnable {
             Class<?>[] interfaces = container.getRemoteObjectInterfaces();
             String[] interfaceNames = new String[interfaces.length];
             for (int i = 0; i < interfaceNames.length; i++) {
-                interfaceNames[i] = interfaces[i].getCanonicalName();
+                interfaceNames[i] = interfaces[i].getName();
             }
 
             ret.setInterfaces(interfaceNames);
@@ -497,7 +497,7 @@ public class ProcessMessageRunnable implements Runnable {
                 logger.error("***** Analysis of arguments and paramtypes ... ron={} method={} ", remoteObjectName, method.getName());
                 if (arguments != null && arguments.length != 0) {
                     for (int i = 0; i < arguments.length; i++) {
-                        logger.error("***** arguments[" + i + "]: " + (arguments[i] == null ? "null" : arguments[i].getClass().getCanonicalName()) + " toString: " + (arguments[i] == null ? "null" : arguments[i].toString()));
+                        logger.error("***** arguments[" + i + "]: " + (arguments[i] == null ? "null" : arguments[i].getClass().getName()) + " toString: " + (arguments[i] == null ? "null" : arguments[i].toString()));
                     }
                 } else {
                     logger.error("***** no arguments available.");
@@ -506,7 +506,7 @@ public class ProcessMessageRunnable implements Runnable {
                 Class<?>[] paramType = method.getParameterTypes();
                 if (paramType != null && paramType.length != 0) {
                     for (int i = 0; i < paramType.length; i++) {
-                        logger.error("***** paramType[" + i + "]: " + (paramType[i] == null ? "null" : paramType[i].getCanonicalName()));
+                        logger.error("***** paramType[" + i + "]: " + (paramType[i] == null ? "null" : paramType[i].getName()));
                     }
                 } else {
                     logger.error("***** no paramtypes available.");

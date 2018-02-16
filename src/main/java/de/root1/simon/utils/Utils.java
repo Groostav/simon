@@ -162,7 +162,7 @@ public class Utils {
             throw new ClassCastException(
                     "The given class '"
                     + protocolFactory
-                    + "' must extend '" + de.root1.simon.codec.base.SimonProtocolCodecFactory.class.getCanonicalName() + "' !");
+                    + "' must extend '" + de.root1.simon.codec.base.SimonProtocolCodecFactory.class.getName() + "' !");
         }
     }
 
@@ -392,7 +392,7 @@ public class Utils {
             if (remoteObject.getClass().getInterfaces().length > 0 || getRemoteAnnotationValue(remoteObject).length > 0) {
                 return true;
             } else {
-                throw new IllegalRemoteObjectException("There is no interface with the remote object of type '" + remoteObject.getClass().getCanonicalName() + "' linked. Add a 'value' parameter with array of interfaces (at least one interface) to the SimonRemote annotation, or let the class implement an interface");
+                throw new IllegalRemoteObjectException("There is no interface with the remote object of type '" + remoteObject.getClass().getName() + "' linked. Add a 'value' parameter with array of interfaces (at least one interface) to the SimonRemote annotation, or let the class implement an interface");
             }
         }
         if (getMarker(remoteObject) != null) {
@@ -463,7 +463,7 @@ public class Utils {
         Utils.putInterfacesToStack(stack, object.getClass());
         while (!stack.empty()) {
             Class iClazz = stack.pop();
-            String iClazzName = iClazz.getCanonicalName();
+            String iClazzName = iClazz.getName();
             logger.trace("Adding {} to the list of remote interfaces", iClazzName);
             if (!interfaceNames.contains(iClazzName)) {
                 interfaceNames.add(iClazzName);

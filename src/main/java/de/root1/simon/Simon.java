@@ -587,7 +587,7 @@ public class Simon {
     protected static void publishRemote(SimonPublication simonPublication, InetSocketAddress remoteRegistry) throws IOException {
         InterfaceLookup remotePublishLookup = Simon.createInterfaceLookup(remoteRegistry.getAddress(), remoteRegistry.getPort());
         try {
-            SimonRemotePublish simonRemotePublish = (SimonRemotePublish) remotePublishLookup.lookup(SimonRemotePublish.class.getCanonicalName());
+            SimonRemotePublish simonRemotePublish = (SimonRemotePublish) remotePublishLookup.lookup(SimonRemotePublish.class.getName());
             simonRemotePublish.publish(simonPublication);
             remotePublishLookup.release(simonRemotePublish);
         } catch (LookupFailedException ex) {

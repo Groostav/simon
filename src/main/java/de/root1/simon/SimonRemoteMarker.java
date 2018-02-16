@@ -55,7 +55,7 @@ public class SimonRemoteMarker implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        logger.trace("objectToBeMarked={} method={} args.length={}", new Object[]{objectToBeMarked.getClass().getCanonicalName(), method.getName(), (args==null? 0 : args.length)});
+        logger.trace("objectToBeMarked={} method={} args.length={}", new Object[]{objectToBeMarked.getClass().getName(), method.getName(), (args==null? 0 : args.length)});
         return method.invoke(objectToBeMarked, args);
     }
 
