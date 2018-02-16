@@ -676,7 +676,7 @@ public class Simon {
      * to a class, that extends
      *            {@link SimonProtocolCodecFactory}. <i>The important thing is, that this
      * class correctly overrides
-     *            {@link SimonProtocolCodecFactory#setup(boolean)}. For further details,
+     *            {@link SimonProtocolCodecFactory#setup(SerializerSet, boolean)}. For further details,
      * look at {@link SimonProtocolCodecFactory}!</i>
      * @throws IllegalAccessException if the class or its nullary constructor is
      * not accessible.

@@ -4,6 +4,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.SerializerSet;
 import de.root1.simon.exceptions.EstablishConnectionFailed;
 import de.root1.simon.exceptions.LookupFailedException;
 import de.root1.simon.ssl.SslContextFactory;
@@ -94,5 +95,10 @@ public interface Lookup {
      * @throws IllegalArgumentException in case of argument is not a releaseable remote object
      */
     boolean release(Object remoteObject);
+
+    SerializerSet getSerializerSet();
+
+    void setSerializerSet(SerializerSet serializerSet);
+
     
 }

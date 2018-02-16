@@ -18,6 +18,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.SerializerSet;
 import de.root1.simon.codec.base.SimonProtocolCodecFactory;
 import de.root1.simon.exceptions.LookupFailedException;
 import de.root1.simon.exceptions.NameBindingException;
@@ -52,7 +53,11 @@ public final class Registry {
      * TODO document me
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    
+    /**
+     * TODO also document me
+     */
+    private final SerializerSet serializers;
+
     /**
      * The address in which the registry is listening
      */
@@ -125,13 +130,14 @@ public final class Registry {
      * @param sslContextFactory the factory which is used to get the server ssl context
      * @throws IOException if there are problems with creating the mina socketserver
      */
-    protected Registry(InetAddress address, int port, ExecutorService threadPool, String protocolFactoryClassName, SslContextFactory sslContextFactory) throws IOException {
+    protected Registry(InetAddress address, int port, ExecutorService threadPool, String protocolFactoryClassName, SslContextFactory sslContextFactory, SerializerSet serializers) throws IOException {
         logger.debug("begin");
         this.address = address;
         this.port = port;
         this.threadPool = threadPool;
         this.protocolFactoryClassName = protocolFactoryClassName;
         this.sslContextFactory = sslContextFactory;
+        this.serializers = serializers;
         logger.debug("end");
     }
 
@@ -230,7 +236,7 @@ public final class Registry {
                 throw new IllegalArgumentException(e);
             }
 
-            protocolFactory.setup(true);
+            protocolFactory.setup(serializers, true);
             acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(protocolFactory));
 
 

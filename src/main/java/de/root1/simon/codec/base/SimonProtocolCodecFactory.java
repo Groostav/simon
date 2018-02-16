@@ -34,7 +34,7 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
 	 * Sets up the factory, either in server, or in client mode
 	 * @param isServer if true, setup for server mode, false for client mode
 	 */
-	public void setup(boolean isServer){
+	public void setup(SerializerSet serializers, boolean isServer){
             if (isServer) { // **** SERVER ****
 
                 // incoming service lookup
@@ -70,7 +70,7 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
              */
 
             // outgoing invoke
-            super.addMessageEncoder(MsgInvoke.class, MsgInvokeEncoder.class);
+            super.addMessageEncoder(MsgInvoke.class, new MsgInvokeEncoder(serializers));
             // incoming invoke return
             super.addMessageDecoder(MsgInvokeReturnDecoder.class);
 
