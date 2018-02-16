@@ -17,76 +17,86 @@ class EventBusTests {
         ClientSide.start()
 
         //assert
-//        ServerSide.fireMessages()
+        ServerSide.fireMessages()
         ClientSide.fireMessages()
 
         val x = 4;
 
         //assrt
-        println(messages.joinToString())
+        println(messages.joinToString("\n"))
+        assert(messages == listOf(
+                "Server is posting",
+                "Client saw message 'Blam-from-Server!'",
+                "Server saw message 'Blam-from-Server!'",
+                "Client is posting",
+                "Client saw message 'Blam-from-Client!'",
+                "Server saw message 'Blam-from-Client!'"
+        ))
     }
 
     @Before fun resetMessages() { messages = emptyList() }
 
 }
 
-interface ProxyableEventSource{
-    fun register(wrapper: Any)
+typealias Event = String //TODO make interface
+interface RemoteEventHandler { fun handle(event: Event) }
+
+interface ProxyableEventSource {
+    fun register(handler: RemoteEventHandler)
+    fun post(event: Event)
 }
 
-@SimonRemote
-class ProxiedEventSource(val eventBus: EventBus): ProxyableEventSource {
+@SimonRemote class ProxiedEventSource(): ProxyableEventSource {
 
-    override fun register(wrapper: Any){
-        eventBus.register(wrapper)
+    var handlers: List<RemoteEventHandler> = emptyList()
+
+    override fun register(handler: RemoteEventHandler) {
+        handlers += handler
+    }
+
+    override fun post(event: Event) {
+        handlers.forEach { it.handle(event) }
     }
 
 }
 
-interface ProxyableEventSink{
-    @Subscribe fun syndicateOn(obj: Any)
-}
-
-
-@SimonRemote
-class ProxiedEventSink(val eventBus: EventBus): ProxyableEventSink {
-
-    override fun syndicateOn(obj: Any){
-        eventBus.post(obj)
-    }
-
-}
-
-typealias Event = String
-
-class EventSyndicator(val localEventBus: EventBus, val output: ProxyableEventSink, val input: ProxyableEventSource){
+class EventSyndicator(val name: String, val inside: EventBus, val outside: ProxyableEventSource){
 
     init {
-        localEventBus.register(this)
-        input.register(ProxiedCallback())
+        inside.register(this)
+        outside.register(ProxiedCallback())
     }
 
-    interface Subscriber {
-        @Subscribe fun handle(event: Event)
-    }
-
-    @SimonRemote inner class ProxiedCallback: Subscriber {
+    @SimonRemote inner class ProxiedCallback: RemoteEventHandler {
 
         @Subscribe override fun handle(event: Event){
             onForeignEvent(event)
         }
     }
 
-    private var foreignEvents = emptyList<Event>()
+    private var foreignEvents = emptySet<Event>()
 
     @Subscribe fun onLocalEvent(event: Event){
         val wasAlreadyPosted = event in foreignEvents
-        foreignEvents -= event
-        if( ! wasAlreadyPosted) { output.syndicateOn(event) }
+
+        if( ! wasAlreadyPosted) {
+            foreignEvents += event
+            outside.post(event)
+        }
+        else {
+            foreignEvents -= event
+        }
     }
     fun onForeignEvent(event: Event){
-        foreignEvents += event
-        localEventBus.post(event)
+        val wasAlreadyPosted = event in foreignEvents
+
+        if( ! wasAlreadyPosted) {
+            foreignEvents += event
+            inside.post(event)
+        }
+        else {
+            foreignEvents -= event
+        }
     }
 }
 
@@ -101,9 +111,7 @@ object ClientSide {
 
         val source = lookup.lookup("global event bus-producer") as ProxyableEventSource
 
-        val sink = lookup.lookup("global event bus-consumer") as ProxyableEventSink
-
-        EventSyndicator(eventBus, sink, source)
+        EventSyndicator("Client", eventBus, source)
     }
 
     fun fireMessages() = duder.fireMessages()
@@ -119,11 +127,12 @@ object ServerSide {
         val lookup = Simon.createNameLookup("127.0.0.1")
 
         val eventBus = EventBus("global event bus")
-        val source = ProxiedEventSource(eventBus)
-        val sink = ProxiedEventSink(eventBus)
+        val source = ProxiedEventSource()
+
+        EventSyndicator("Server", eventBus, source)
 
         registry.bind(eventBus.identifier() + "-producer", source)
-        registry.bind(eventBus.identifier() + "-consumer", sink)
+
 
         duder = EventBusDuder("Server", eventBus)
     }
