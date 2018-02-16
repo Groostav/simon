@@ -51,7 +51,7 @@ public class MsgInvokeReturnDecoder extends AbstractMessageDecoder {
 
         MsgInvokeReturn m = new MsgInvokeReturn();
         try {
-            Object returnValue = UserObjectSerializer.readUserObject(in);
+            Object returnValue = UserObjectSerializerKt.readUserObject(UserObjectSerializer.INSTANCE, in);
             m.setReturnValue(returnValue);
         } catch (ClassNotFoundException e) {
             MsgError error = new MsgError();

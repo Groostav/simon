@@ -40,7 +40,7 @@ public class MsgInvokeReturnEncoder<T extends MsgInvokeReturn> extends AbstractM
     protected void encodeBody(IoSession session, T message, IoBuffer out) {
         logger.trace("begin. message={}", message);
 
-        UserObjectSerializer.writeUserObject(message.getReturnValue(), out);
+        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getReturnValue(), out);
 
         /*
          * There is no need to write the message.getErrorMsg() string back to the client

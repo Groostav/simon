@@ -14,8 +14,8 @@ public class MsgAsyncComputationFinishedEncoder<T extends MsgAsyncComputationFin
     protected void encodeBody(IoSession session, MsgAsyncComputationFinished message, IoBuffer out) {
         logger.trace("begin. message={}", message);
 
-        UserObjectSerializer.writeUserObject(message.getThrown(), out);
-        UserObjectSerializer.writeUserObject(message.getReturnValue(), out);
+        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getThrown(), out);
+        UserObjectSerializerKt.writeUserObject(UserObjectSerializer.INSTANCE, message.getReturnValue(), out);
 
         /*
          * There is no need to write the message.getErrorMsg() string back to the client

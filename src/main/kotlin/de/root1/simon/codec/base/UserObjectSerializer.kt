@@ -32,11 +32,8 @@ interface Serializer<T>{
 @Suppress("UsePropertyAccessSyntax")
 object UserObjectSerializer {
 
-    val FromUTF8 = Charsets.UTF_8.newDecoder()
-    val ToUTF8 = Charsets.UTF_8.newEncoder()
-
-    private var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap()
-    private var UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
+    internal var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap()
+    internal var UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
 
     @JvmStatic fun <T> addSerializer(type: Class<T>, encoder: Encoder<T>, decoder: Decoder<T>){
         UserEncoders += type to (encoder as Encoder<Any>)
@@ -53,96 +50,98 @@ object UserObjectSerializer {
         UserDecoders = emptyMap()
     }
 
-    @Throws(ClassNotFoundException::class)
-    @JvmStatic fun readUserObject(input: IoBuffer): Any? {
-
-        val type = input.getEnum(ObjectCode::class.java)!!
-
-        //TODO: check bytecode for kotlin's boxing-unboxing behaviour.
-        val result: Any? = when(type){
-            NULL -> null
-
-            BOOL -> input.getBoolean()
-
-            BYTE -> input.get()
-            SHORT -> input.getShort()
-            INT -> input.getInt()
-            LONG -> input.getLong()
-
-            FLOAT -> input.getFloat()
-            DOUBLE -> input.getDouble()
-
-            CHAR -> input.getChar()
-            STRING -> input.getPrefixedString(4, FromUTF8)
-
-            UNKNOWN -> {
-                val name = input.getPrefixedString(FromUTF8)
-                val clazz = Class.forName(name)
-                val usedCustomEncoder = input.getBoolean()
-                val value = input.getObject()
-
-                val userDecoder = UserDecoders.closestForType(clazz)
-
-                if(usedCustomEncoder && userDecoder == null){
-                    TODO("used custom encoder but no custom decoder found, and these encoders/decoders are setup to be pretty ref transparent...")
-                    //warning vs exception:
-                    // IMHO, if we cant demonstrate a use-case for a non-referentially transparent encoder,
-                    //       IE, one that has some static mutable state which _might_ explain why you would want one,
-                    //       then this should be an exception,
-                    //       but, if there is such a use case, then this should probably just be a warning or even info.
-
-                    // how about logging?
-                    //       if a user wanted a quick-and-dirty way to see stuff going across the wire,
-                    //       he could install a Any serializer that simply logs things...
-                    //       but only out-going things? concievably he doesnt have access to the encoding side?
-                    //       consider a dev-client using simon to get into a staging-server?
-                }
-
-                return userDecoder?.invoke(value as String) ?: value
-            }
-        }
-
-        return result
-    }
-
-    @JvmStatic fun writeUserObject(obj: Any?, output: IoBuffer){
-
-        val type = ObjectCode[obj]
-
-        output.putEnum(type)
-
-        when(type){
-            NULL -> { /*noop, written header will signal reader*/ }
-
-            BOOL -> output.putBoolean(obj as Boolean)
-
-            BYTE -> output.put(obj as Byte)
-            SHORT -> output.putShort(obj as Short)
-            INT -> output.putInt(obj as Int)
-            LONG -> output.putLong(obj as Long)
-
-            FLOAT -> output.putFloat(obj as Float)
-            DOUBLE -> output.putDouble(obj as Double)
-
-            CHAR -> output.putChar(obj as Char)
-            STRING -> output.putPrefixedString(obj as String, 4, ToUTF8)
-
-            UNKNOWN -> {
-                val clazz = obj!!.javaClass
-                output.putPrefixedString(clazz.name, ToUTF8)
-
-                val userEncoder = UserEncoders.closestForType(clazz)
-
-                output.putBoolean(userEncoder != null)
-
-                val value: Any = userEncoder?.invoke(obj) ?: obj
-
-                output.putObject(value)
-            }
-        }
-
-    }
 }
+
+@Throws(ClassNotFoundException::class)
+fun UserObjectSerializer.readUserObject(input: IoBuffer): Any? {
+
+    val type = input.getEnum(ObjectCode::class.java)!!
+
+    //TODO: check bytecode for kotlin's boxing-unboxing behaviour.
+    val result: Any? = when(type){
+        NULL -> null
+
+        BOOL -> input.getBoolean()
+
+        BYTE -> input.get()
+        SHORT -> input.getShort()
+        INT -> input.getInt()
+        LONG -> input.getLong()
+
+        FLOAT -> input.getFloat()
+        DOUBLE -> input.getDouble()
+
+        CHAR -> input.getChar()
+        STRING -> input.getPrefixedString(4, FromUTF8)
+
+        UNKNOWN -> {
+            val name = input.getPrefixedString(FromUTF8)
+            val clazz = Class.forName(name)
+            val usedCustomEncoder = input.getBoolean()
+            val value = input.getObject()
+
+            val userDecoder = this.UserDecoders.closestForType(clazz)
+
+            if(usedCustomEncoder && userDecoder == null){
+                TODO("used custom encoder but no custom decoder found, and these encoders/decoders are setup to be pretty ref transparent...")
+                //warning vs exception:
+                // IMHO, if we cant demonstrate a use-case for a non-referentially transparent encoder,
+                //       IE, one that has some static mutable state which _might_ explain why you would want one,
+                //       then this should be an exception,
+                //       but, if there is such a use case, then this should probably just be a warning or even info.
+
+                // how about logging?
+                //       if a user wanted a quick-and-dirty way to see stuff going across the wire,
+                //       he could install a Any serializer that simply logs things...
+                //       but only out-going things? concievably he doesnt have access to the encoding side?
+                //       consider a dev-client using simon to get into a staging-server?
+            }
+
+            return userDecoder?.invoke(value as String) ?: value
+        }
+    }
+
+    return result
+}
+
+fun UserObjectSerializer.writeUserObject(obj: Any?, output: IoBuffer){
+
+    val type = ObjectCode[obj]
+
+    output.putEnum(type)
+
+    when(type){
+        NULL -> { /*noop, written header will signal reader*/ }
+
+        BOOL -> output.putBoolean(obj as Boolean)
+
+        BYTE -> output.put(obj as Byte)
+        SHORT -> output.putShort(obj as Short)
+        INT -> output.putInt(obj as Int)
+        LONG -> output.putLong(obj as Long)
+
+        FLOAT -> output.putFloat(obj as Float)
+        DOUBLE -> output.putDouble(obj as Double)
+
+        CHAR -> output.putChar(obj as Char)
+        STRING -> output.putPrefixedString(obj as String, 4, ToUTF8)
+
+        UNKNOWN -> {
+            val clazz = obj!!.javaClass
+            output.putPrefixedString(clazz.name, ToUTF8)
+
+            val userEncoder = UserEncoders.closestForType(clazz)
+
+            output.putBoolean(userEncoder != null)
+
+            val value: Any = userEncoder?.invoke(obj) ?: obj
+
+            output.putObject(value)
+        }
+    }
+
+}
+
 
 enum class ObjectCode {
     NULL,
@@ -225,3 +224,6 @@ fun <T> Map<Class<*>, T>.closestForType(type: Class<*>): T? {
     val searchSequence = superClassSequence(type) + superInterfaceSequence(type) + Any::class.java
     return searchSequence.firstOrNull { it in keys }?.let { getValue(it) }
 }
+
+val FromUTF8 = Charsets.UTF_8.newDecoder()
+val ToUTF8 = Charsets.UTF_8.newEncoder()
