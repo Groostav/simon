@@ -116,12 +116,17 @@ class ThingyEmpoweropsTest {
         @BeforeClass @JvmStatic fun setupServer(){
             val serviceImpl = ServiceImpl()
 
-            registry = Simon.createRegistry().apply { start() }
+            registry = Simon.createRegistry().apply {
+                serializers = SerializerSet.Default
+                start()
+            }
 
             registry.bind("service", serviceImpl)
 
             //technically this is 'setup client'
-            lookup = Simon.createNameLookup("127.0.0.1")
+            lookup = Simon.createNameLookup("127.0.0.1").apply {
+                serializers = SerializerSet.Default
+            }
         }
 
         @AfterClass @JvmStatic fun teardownServer(){
