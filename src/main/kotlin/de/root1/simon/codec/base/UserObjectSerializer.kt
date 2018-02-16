@@ -8,6 +8,10 @@ import kotlin.coroutines.experimental.buildSequence
 
 typealias Encoder<T> = (T) -> String
 typealias Decoder<T> = (String) -> T
+interface Serializer<T>{
+    fun serialize(instance: T): String
+    fun deserialize(stream: String): T
+}
 
 
 //TODO: convert this to an injected object.
@@ -39,6 +43,11 @@ object UserObjectSerializer {
         UserDecoders += type to (decoder as Decoder<Any>)
     }
 
+    @JvmStatic fun <T> addSerializer(type: Class<T>, serializer: Serializer<T>){
+        UserEncoders += type to { it -> serializer.serialize(it as T) }
+        UserDecoders += type to { it -> serializer.deserialize(it) as Any } //TODO: null semantics?
+    }
+
     @JvmStatic fun clear(){
         UserEncoders = emptyMap()
         UserDecoders = emptyMap()
@@ -53,7 +62,7 @@ object UserObjectSerializer {
         val result: Any? = when(type){
             NULL -> null
 
-            BOOL -> input.get() == TRUE_BYTE
+            BOOL -> input.getBoolean()
 
             BYTE -> input.get()
             SHORT -> input.getShort()
@@ -68,11 +77,26 @@ object UserObjectSerializer {
 
             UNKNOWN -> {
                 val name = input.getPrefixedString(FromUTF8)
-                val type = Class.forName(name)
+                val clazz = Class.forName(name)
+                val usedCustomEncoder = input.getBoolean()
                 val value = input.getObject()
 
-                val supertypeSequence = superClassSequence(type) + superInterfaceSequence(type)
-                val userDecoder = supertypeSequence.firstOrNull { it in UserDecoders.keys }?.let { UserDecoders[it] }
+                val userDecoder = UserDecoders.closestForType(clazz)
+
+                if(usedCustomEncoder && userDecoder == null){
+                    TODO("used custom encoder but no custom decoder found, and these encoders/decoders are setup to be pretty ref transparent...")
+                    //warning vs exception:
+                    // IMHO, if we cant demonstrate a use-case for a non-referentially transparent encoder,
+                    //       IE, one that has some static mutable state which _might_ explain why you would want one,
+                    //       then this should be an exception,
+                    //       but, if there is such a use case, then this should probably just be a warning or even info.
+
+                    // how about logging?
+                    //       if a user wanted a quick-and-dirty way to see stuff going across the wire,
+                    //       he could install a Any serializer that simply logs things...
+                    //       but only out-going things? concievably he doesnt have access to the encoding side?
+                    //       consider a dev-client using simon to get into a staging-server?
+                }
 
                 return userDecoder?.invoke(value as String) ?: value
             }
@@ -90,7 +114,7 @@ object UserObjectSerializer {
         when(type){
             NULL -> { /*noop, written header will signal reader*/ }
 
-            BOOL -> output.put(if(obj as Boolean) TRUE_BYTE else FALSE_BYTE)
+            BOOL -> output.putBoolean(obj as Boolean)
 
             BYTE -> output.put(obj as Byte)
             SHORT -> output.putShort(obj as Short)
@@ -104,11 +128,12 @@ object UserObjectSerializer {
             STRING -> output.putPrefixedString(obj as String, 4, ToUTF8)
 
             UNKNOWN -> {
-                val name = obj!!.javaClass
-                output.putPrefixedString(name.name, ToUTF8)
+                val clazz = obj!!.javaClass
+                output.putPrefixedString(clazz.name, ToUTF8)
 
-                val supertypeSequence = superClassSequence(name) + superInterfaceSequence(name)
-                val userEncoder = supertypeSequence.firstOrNull { it in UserEncoders.keys }?.let { UserEncoders[it] }
+                val userEncoder = UserEncoders.closestForType(clazz)
+
+                output.putBoolean(userEncoder != null)
 
                 val value: Any = userEncoder?.invoke(obj) ?: obj
 
@@ -183,10 +208,20 @@ private fun <T> generateBreadthFirstSequence(seed: T, children: (T) -> Iterable<
 private fun superInterfaceSequence(name: Class<*>): Sequence<Class<*>> =
         generateBreadthFirstSequence(name) { it.interfaces.asList() }
 
-private fun superClassSequence(name: Class<*>) =
+private fun superClassSequence(name: Class<*>): Sequence<Class<*>> =
         generateSequence(name) { it.superclass.takeUnless { it == Any::class } }
 
 internal data class CompletableFutureSurrogate(val outstandingId: Int): Serializable
 
 val FALSE_BYTE = 0.toByte()
 val TRUE_BYTE = 1.toByte()
+
+fun IoBuffer.getBoolean(): Boolean = get().let {
+    when(it){ TRUE_BYTE -> true; FALSE_BYTE -> false; else -> TODO() }
+}
+fun IoBuffer.putBoolean(value: Boolean) = put(if(value) TRUE_BYTE else FALSE_BYTE)
+
+fun <T> Map<Class<*>, T>.closestForType(type: Class<*>): T? {
+    val searchSequence = superClassSequence(type) + superInterfaceSequence(type) + Any::class.java
+    return searchSequence.firstOrNull { it in keys }?.let { getValue(it) }
+}
