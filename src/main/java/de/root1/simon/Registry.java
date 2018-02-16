@@ -53,10 +53,11 @@ public final class Registry {
      * TODO document me
      */
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
     /**
      * TODO also document me
      */
-    private final SerializerSet serializers;
+    private SerializerSet serializers;
 
     /**
      * The address in which the registry is listening
@@ -117,7 +118,7 @@ public final class Registry {
      * @throws IOException if there are problems with creating the mina socketserver
      */
     protected Registry(InetAddress address, int port, ExecutorService threadPool, String protocolFactoryClassName) throws IOException {
-        this(address, port, threadPool, protocolFactoryClassName, null);
+        this(address, port, threadPool, protocolFactoryClassName, null, SerializerSet.Default);
     }
 
     /**
@@ -496,6 +497,13 @@ public final class Registry {
      */
     public void setClassLoader(ClassLoader classLoader){
         this.classLoader = classLoader;
+    }
+
+    public SerializerSet getSerializers(){
+        return serializers;
+    }
+    public void setSerializers(SerializerSet serializers){
+        this.serializers = serializers;
     }
 
 }

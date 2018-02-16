@@ -96,9 +96,9 @@ public interface Lookup {
      */
     boolean release(Object remoteObject);
 
-    SerializerSet getSerializerSet();
+    SerializerSet getSerializers();
 
-    void setSerializerSet(SerializerSet serializerSet);
+    void setSerializers(SerializerSet serializerSet);
 
     
 }

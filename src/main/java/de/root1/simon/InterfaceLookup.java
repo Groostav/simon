@@ -44,7 +44,8 @@ public class InterfaceLookup extends AbstractLookup {
     private final static Logger logger = LoggerFactory.getLogger(InterfaceLookup.class);
     private final InetAddress serverAddress;
     private final int serverPort;
-    private final SerializerSet serializers;
+
+    private SerializerSet serializers;
     private SslContextFactory sslContextFactory;
     private SimonProxyConfig proxyConfig;
     private ClassLoader classLoader;
@@ -113,7 +114,9 @@ public class InterfaceLookup extends AbstractLookup {
         // check if there is already an dispatcher and key for THIS server
         Object proxy = null;
 
-        SessionDispatcherContainer sessionDispatcherContainer = buildSessionDispatcherContainer(canonicalInterfaceName, serverAddress, serverPort, sslContextFactory, proxyConfig);
+        SessionDispatcherContainer sessionDispatcherContainer = buildSessionDispatcherContainer(
+                canonicalInterfaceName, serverAddress, serverPort, sslContextFactory, serializers, proxyConfig
+        );
 
         Dispatcher dispatcher = sessionDispatcherContainer.getDispatcher();
         IoSession session = sessionDispatcherContainer.getSession();
@@ -157,5 +160,15 @@ public class InterfaceLookup extends AbstractLookup {
             return proxy;
 
         }
+    }
+
+    @Override
+    public SerializerSet getSerializers() {
+        return serializers;
+    }
+
+    @Override
+    public void setSerializers(SerializerSet serializers) {
+        this.serializers = serializers;
     }
 }

@@ -5,6 +5,7 @@ import de.root1.simon.Lookup
 import de.root1.simon.Registry
 import de.root1.simon.Simon
 import de.root1.simon.annotation.SimonRemote
+import de.root1.simon.codec.base.Serializer
 import de.root1.simon.codec.base.SerializerSet
 import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
@@ -16,6 +17,7 @@ import org.junit.Test
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.coroutines.experimental.buildSequence
+import kotlin.reflect.KClass
 
 interface Service {
 
@@ -134,8 +136,6 @@ class ThingyEmpoweropsTest {
         }
     }
 
-    @After fun `clean up user supplied encoding decoding`(){ SerializerSet.clear() }
-
     @Test fun `when using simple happy path completable future should properly send and recieve values`() = runBlocking {
         val service = lookup.lookup("service") as Service
         val futureResult = service.executeRun(42)
@@ -163,7 +163,7 @@ class ThingyEmpoweropsTest {
 
     @Test fun `when using a complex dag should properly encode and decode`(){
         val xstream = XStream()
-        SerializerSet.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
+        lookup.serializers += Node::class to xstream.asSimonSerializer()
         val service = lookup.lookup("service") as Service
 
         val rawExceptionResult = service.identity(DiamondDag)
@@ -174,7 +174,7 @@ class ThingyEmpoweropsTest {
     @Test fun `when attempting to call code with complex argument and lazy result should properly return to me!`() = runBlocking {
 
         val xstream = XStream()
-        SerializerSet.addSerializer(Node::class.java, { xstream.toXML(it) }, { xstream.fromXML(it) as Node })
+        lookup.serializers += Node::class to xstream.asSimonSerializer()
 
         val service = lookup.lookup("service") as Service
         val result = service.executeDependentRuns(DiamondDag).await()
@@ -182,4 +182,14 @@ class ThingyEmpoweropsTest {
         assert(result == "top0-left1-right2-bottom3")
         //neat.
     }
+}
+
+fun XStream.asSimonSerializer() = object: Serializer<Node> {
+    override fun serialize(instance: Node) = toXML(instance)
+    override fun deserialize(stream: String) = fromXML(stream) as Node
+}
+
+operator fun <T : Any> SerializerSet.plus(config: Pair<KClass<T>, Serializer<T>>): SerializerSet {
+    val (type, serializer) = config
+    return plusSerializer(type.java, serializer)
 }

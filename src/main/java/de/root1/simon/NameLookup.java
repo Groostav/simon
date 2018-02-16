@@ -29,7 +29,8 @@ public class NameLookup extends AbstractLookup {
     private final static Logger logger = LoggerFactory.getLogger(NameLookup.class);
     private final InetAddress serverAddress;
     private final int serverPort;
-    private final SerializerSet serializers;
+
+    private SerializerSet serializers;
     private SslContextFactory sslContextFactory;
     private SimonProxyConfig proxyConfig;
     private ClassLoader classLoader;
@@ -59,7 +60,9 @@ public class NameLookup extends AbstractLookup {
         Object proxy = null;
 
         // check if there is already an dispatcher and key for THIS server
-        SessionDispatcherContainer sessionDispatcherContainer = buildSessionDispatcherContainer(remoteObjectName, serverAddress, serverPort, sslContextFactory, proxyConfig);
+        SessionDispatcherContainer sessionDispatcherContainer = buildSessionDispatcherContainer(
+                remoteObjectName, serverAddress, serverPort, sslContextFactory, serializers, proxyConfig
+        );
 
         Dispatcher dispatcher = sessionDispatcherContainer.getDispatcher();
         IoSession session = sessionDispatcherContainer.getSession();
@@ -143,5 +146,15 @@ public class NameLookup extends AbstractLookup {
     @Override
     public int getServerPort() {
         return serverPort;
+    }
+
+    @Override
+    public SerializerSet getSerializers() {
+        return serializers;
+    }
+
+    @Override
+    public void setSerializers(SerializerSet serializers) {
+        this.serializers = serializers;
     }
 }

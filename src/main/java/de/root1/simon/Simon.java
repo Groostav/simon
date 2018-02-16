@@ -18,6 +18,7 @@
  */
 package de.root1.simon;
 
+import de.root1.simon.codec.base.SerializerSet;
 import de.root1.simon.codec.base.SimonProtocolCodecFactory;
 import de.root1.simon.exceptions.*;
 import de.root1.simon.ssl.SslContextFactory;
@@ -217,7 +218,7 @@ public class Simon {
      */
     public static Registry createRegistry(SslContextFactory sslContextFactory, InetAddress address, int port) throws IOException, IllegalArgumentException {
         logger.debug("begin");
-        Registry registry = new Registry(address, port, getThreadPool(), protocolFactoryClassName, sslContextFactory);
+        Registry registry = new Registry(address, port, getThreadPool(), protocolFactoryClassName, sslContextFactory, SerializerSet.Default);
         logger.debug("end");
         return registry;
     }
@@ -240,7 +241,7 @@ public class Simon {
      */
     public static Registry createRegistry(SslContextFactory sslContextFactory, InetAddress address) throws IOException, IllegalArgumentException {
         logger.debug("begin");
-        Registry registry = new Registry(address, DEFAULT_PORT, getThreadPool(), protocolFactoryClassName, sslContextFactory);
+        Registry registry = new Registry(address, DEFAULT_PORT, getThreadPool(), protocolFactoryClassName, sslContextFactory, SerializerSet.Default);
         logger.debug("end");
         return registry;
     }

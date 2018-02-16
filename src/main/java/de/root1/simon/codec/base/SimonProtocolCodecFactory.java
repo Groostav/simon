@@ -70,14 +70,14 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
              */
 
             // outgoing invoke
-            super.addMessageEncoder(MsgInvoke.class, new MsgInvokeEncoder(serializers));
+            super.addMessageEncoder(MsgInvoke.class, new MsgInvokeEncoder<>(serializers));
             // incoming invoke return
-            super.addMessageDecoder(MsgInvokeReturnDecoder.class);
+            super.addMessageDecoder(new MsgInvokeReturnDecoder(serializers));
 
             // incoming invoke
-            super.addMessageDecoder(MsgInvokeDecoder.class);
+            super.addMessageDecoder(new MsgInvokeDecoder(serializers));
             // outgoing invoke return
-            super.addMessageEncoder(MsgInvokeReturn.class, MsgInvokeReturnEncoder.class);
+            super.addMessageEncoder(MsgInvokeReturn.class, new MsgInvokeReturnEncoder<>(serializers));
 
             /*
              * "toString()" handling
@@ -112,6 +112,7 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
              */
 
             // outgoing equals
+        //TODO: this should use the serializer
             super.addMessageEncoder(MsgEquals.class, MsgEqualsEncoder.class);
             // incoming equals return
             super.addMessageDecoder(MsgEqualsReturnDecoder.class);
@@ -184,6 +185,7 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
              */
 
             // outgoing error
+        //TODO here also, use serializers
             super.addMessageEncoder(MsgError.class, MsgErrorEncoder.class);
             // incoming error
             super.addMessageDecoder(MsgErrorDecoder.class);
@@ -201,8 +203,8 @@ public class SimonProtocolCodecFactory extends DemuxingProtocolCodecFactory {
             /*
              * Async results
              */
-            super.addMessageEncoder(MsgAsyncComputationFinished.class, MsgAsyncComputationFinishedEncoder.class);
-            super.addMessageDecoder(MsgAsyncComputationFinishedDecoder.class);
+            super.addMessageEncoder(MsgAsyncComputationFinished.class, new MsgAsyncComputationFinishedEncoder<>(serializers));
+            super.addMessageDecoder(new MsgAsyncComputationFinishedDecoder(serializers));
 	}
 }
 
