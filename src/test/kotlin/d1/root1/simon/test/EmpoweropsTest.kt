@@ -164,6 +164,8 @@ class ThingyEmpoweropsTest {
     @Test fun `when using a complex dag should properly encode and decode`(){
         val xstream = XStream()
         lookup.serializers += Node::class to xstream.asSimonSerializer()
+        registry.serializers += Node::class to xstream.asSimonSerializer()
+
         val service = lookup.lookup("service") as Service
 
         val rawExceptionResult = service.identity(DiamondDag)
@@ -175,6 +177,7 @@ class ThingyEmpoweropsTest {
 
         val xstream = XStream()
         lookup.serializers += Node::class to xstream.asSimonSerializer()
+        registry.serializers += Node::class to xstream.asSimonSerializer()
 
         val service = lookup.lookup("service") as Service
         val result = service.executeDependentRuns(DiamondDag).await()
@@ -189,7 +192,7 @@ fun XStream.asSimonSerializer() = object: Serializer<Node> {
     override fun deserialize(stream: String) = fromXML(stream) as Node
 }
 
-operator fun <T : Any> SerializerSet.plus(config: Pair<KClass<T>, Serializer<T>>): SerializerSet {
+operator fun <T : Any> SerializerSet.plusAssign(config: Pair<KClass<T>, Serializer<T>>) {
     val (type, serializer) = config
-    return plusSerializer(type.java, serializer)
+    plusSerializer(type.java, serializer)
 }

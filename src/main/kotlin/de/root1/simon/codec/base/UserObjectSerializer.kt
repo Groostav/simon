@@ -33,19 +33,19 @@ interface Serializer<T>{
 // this doesnt cover bad configuration, but it does cover _forgetting_ to do configuration.
 
 @Immutable data class SerializerSet private constructor(
-        internal val UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap(),
-        internal val UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
+        internal var UserDecoders: Map<Class<*>, Decoder<Any>> = emptyMap(),
+        internal var UserEncoders: Map<Class<*>, Encoder<Any>> = emptyMap()
 ) {
 
-    fun <T> plusSerializer(type: Class<T>, encoder: Encoder<T>, decoder: Decoder<T>) = copy(
-            UserEncoders = UserEncoders + (type to (encoder as Encoder<Any>)),
-            UserDecoders = UserDecoders + (type to (decoder as Decoder<Any>))
-    )
+    fun <T> plusSerializer(type: Class<T>, encoder: Encoder<T>, decoder: Decoder<T>) {
+        UserEncoders += (type to (encoder as Encoder<Any>))
+        UserDecoders += (type to (decoder as Decoder<Any>))
+    }
 
-    fun <T> plusSerializer(type: Class<T>, serializer: Serializer<T>) = copy (
-            UserEncoders = UserEncoders + (type to { it -> serializer.serialize(it as T) }),
-            UserDecoders = UserDecoders + (type to { it -> serializer.deserialize(it) as Any }) //TODO: null semantics?
-    )
+    fun <T> plusSerializer(type: Class<T>, serializer: Serializer<T>) {
+        UserEncoders += (type to { it -> serializer.serialize(it as T) })
+        UserDecoders += (type to { it -> serializer.deserialize(it) as Any }) //TODO: null semantics?
+    }
 
     companion object {
         @JvmField val Default = SerializerSet()
