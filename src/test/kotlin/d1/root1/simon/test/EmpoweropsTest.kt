@@ -10,7 +10,6 @@ import de.root1.simon.codec.base.SerializerSet
 import kotlinx.coroutines.experimental.future.await
 import kotlinx.coroutines.experimental.future.future
 import kotlinx.coroutines.experimental.runBlocking
-import org.junit.After
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import org.junit.Test
@@ -28,20 +27,28 @@ interface Service {
     fun executeDependentRuns(dag: Node): CompletableFuture<String>
 
     fun <T> identity(input: T): T
+
+    fun executeComplexDependentRuns(dag: Node, @SimonRemote visitorFactory: ExecutionVisitorFactory): CompletableFuture<Double>
 }
+
+fun Service.executeComplexDependentRuns(dag: Node, context: SimulationMachineCallbacks): CompletableFuture<Double>
+         = executeComplexDependentRuns(dag, context.visitorFactory)
+
 
 class BlamException(val data: Int): RuntimeException("Blam $data!")
 
 @SimonRemote(Service::class)
 class ServiceImpl: Service {
+    override fun executeComplexDependentRuns(dag: Node, visitorFactory: ExecutionVisitorFactory) = future<Double>{
+        val visitor = visitorFactory.create(0)
 
-    override fun executeRun(data: Int) = future<Double> {
-        42.0 + data
+        dag.accept(visitor)
+
+        return@future visitor.result
     }
 
-    override fun executeExceptionRun(data: Int) = future<Double> {
-        throw BlamException(data)
-    }
+    override fun executeRun(data: Int) = future<Double> { 42.0 + data }
+    override fun executeExceptionRun(data: Int) = future<Double> { throw BlamException(data) }
 
     override fun executeDependentRuns(dag: Node) = future<String> {
         dag.bfs().mapIndexed { idx, v -> v.value + idx }.joinToString("-")
@@ -49,6 +56,34 @@ class ServiceImpl: Service {
 
     override fun <T> identity(input: T): T = input
 }
+
+interface ExecutionVisitorFactory {
+    fun create(initialCounter: Int): ExecutionVisitor
+}
+
+@SimonRemote class ExecutionVisitor(private var counter: Int): Visitor {
+
+    var result: Double = Double.NaN; private set
+
+    override fun visit(node: Node) {
+        result += execute(node, node.value to (counter.toDouble()))
+        counter += 1
+    }
+
+    private fun execute(node: Node, inputs: Pair<String, Double>): Double {
+        println("executing $node")
+
+        val (name, value) = inputs
+        return value + name.length
+    }
+}
+
+interface Visitor {
+    fun visit(node: Node)
+}
+
+fun Node.accept(visitor: Visitor) = bfs().forEach { visitor.visit(it) }
+
 
 data class Node(val value: String, val parents: List<Node> = emptyList(), var children: List<Node> = emptyList()){
 
@@ -162,7 +197,9 @@ class ThingyEmpoweropsTest {
     }
 
     @Test fun `when using a complex dag should properly encode and decode`(){
-        val xstream = XStream()
+        val xstream = XStream().apply {
+
+        }
         lookup.serializers += Node::class to xstream.asSimonSerializer()
         registry.serializers += Node::class to xstream.asSimonSerializer()
 
@@ -185,7 +222,29 @@ class ThingyEmpoweropsTest {
         assert(result == "top0-left1-right2-bottom3")
         //neat.
     }
+
+    @Test fun `when attempting to pass callback factories around should properly proxy`() = runBlocking {
+        //setup
+        val xstream = XStream()
+        lookup.serializers += Node::class to xstream.asSimonSerializer()
+        registry.serializers += Node::class to xstream.asSimonSerializer()
+
+        val visitorFactory = object: ExecutionVisitorFactory {
+
+            override fun create(initialCounter: Int): ExecutionVisitor {
+                return ExecutionVisitor(initialCounter)
+            }
+
+        }
+
+        val service = lookup.lookup("service") as Service
+        val result = service.executeComplexDependentRuns(DiamondDag, SimulationMachineCallbacks(visitorFactory)).await()
+    }
 }
+
+data class SimulationMachineCallbacks(
+        val visitorFactory: ExecutionVisitorFactory
+)
 
 fun XStream.asSimonSerializer() = object: Serializer<Node> {
     override fun serialize(instance: Node) = toXML(instance)

@@ -20,6 +20,7 @@ package de.root1.simon;
 
 import de.root1.simon.utils.Utils;
 import java.io.Serializable;
+import java.lang.reflect.AnnotatedElement;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.mina.core.session.IoSession;
@@ -52,8 +53,9 @@ public class SimonRemoteInstance implements Serializable {
      *
      * @param session the {@link IoSession} to which the remote object is related to
      * @param remoteObject the remote object for which we generate this transport object for
+     * @param annotatedElement
      */
-    protected SimonRemoteInstance(IoSession session, Object remoteObject) {
+    protected SimonRemoteInstance(IoSession session, Object remoteObject, AnnotatedElement annotatedElement) {
         logger.debug("begin");
 
         this.sessionId = session.getId();
@@ -100,9 +102,9 @@ public class SimonRemoteInstance implements Serializable {
         Class[] remoteInterfacesInAnnotation=null;
 
         // check for annotations
-        boolean isAnnotated = Utils.isRemoteAnnotated(remoteObject);
+        boolean isAnnotated = Utils.isRemoteAnnotated(annotatedElement);
         if (isAnnotated) {
-            de.root1.simon.annotation.SimonRemote annotation = remoteObject.getClass().getAnnotation(de.root1.simon.annotation.SimonRemote.class);
+            de.root1.simon.annotation.SimonRemote annotation = annotatedElement.getAnnotation(de.root1.simon.annotation.SimonRemote.class);
             remoteInterfacesInAnnotation = annotation.value();
             logger.trace("SimonRemoteObject is annotated with SimonRemote");
         }

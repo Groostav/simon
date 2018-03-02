@@ -23,7 +23,7 @@ import de.root1.simon.SimonRemoteMarker;
 import de.root1.simon.annotation.SimonRemote;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,9 +37,6 @@ import de.root1.simon.exceptions.IllegalRemoteObjectException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -326,25 +323,23 @@ public class Utils {
      * Checks whether the object is annotated with
      * <code>SimonRemote</code> or not
      *
-     * @param remoteObject the object to check
      * @return true, if object is annotated, false if not
+     * @param annotatedElement
      */
-    public static boolean isRemoteAnnotated(Object remoteObject) {
-        if (remoteObject == null) {
-            throw new IllegalArgumentException("Cannot check a null-argument. You have to provide a proxy object instance ...");
-        }
-        boolean isRemoteAnnotated = remoteObject.getClass().isAnnotationPresent(de.root1.simon.annotation.SimonRemote.class);
-        
+    public static boolean isRemoteAnnotated(AnnotatedElement annotatedElement) {
+
+        boolean isRemoteAnnotated = annotatedElement.isAnnotationPresent(de.root1.simon.annotation.SimonRemote.class);
+
         // if annotation is not found via current CL, try again with remoteobject's CL (but only if it's not the Bootstrap-CL (which means null)
         // see: http://dev.root1.de/issues/173
-        if (!isRemoteAnnotated) {
-            
+        if (!isRemoteAnnotated && annotatedElement instanceof Class) {
+
             // get CL only once, as getting CL requires a native call --> avoid too many JNI calls
-            ClassLoader remoteObjectCL = remoteObject.getClass().getClassLoader();
-            
+            ClassLoader remoteObjectCL = ((Class) annotatedElement).getClassLoader();
+
             if (remoteObjectCL!=null) {
                 try {
-                    isRemoteAnnotated = remoteObject.getClass().isAnnotationPresent(
+                    isRemoteAnnotated = annotatedElement.isAnnotationPresent(
                             (Class<? extends Annotation>) remoteObjectCL.loadClass(SIMON_REMOTE_ANNOTATION_CLASSNAME));
                 } catch (ClassNotFoundException ex) {
                     // simply ignore
@@ -387,7 +382,7 @@ public class Utils {
         if (remoteObject == null) {
             return false;
         }
-        if (isRemoteAnnotated(remoteObject)) {
+        if (isRemoteAnnotated(remoteObject.getClass())) {
 
             if (remoteObject.getClass().getInterfaces().length > 0 || getRemoteAnnotationValue(remoteObject).length > 0) {
                 return true;
@@ -399,6 +394,9 @@ public class Utils {
             return true;
         }
         return false;
+    }
+    public static boolean isRemoteArgument(Parameter parameter) {
+        return parameter.isAnnotationPresent(SimonRemote.class);
     }
 
     /**
@@ -596,4 +594,6 @@ public class Utils {
             return false;
         }
     }
+
+
 }

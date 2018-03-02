@@ -27,7 +27,7 @@ import de.root1.simon.exceptions.SimonException;
 import de.root1.simon.exceptions.SimonRemoteException;
 import de.root1.simon.utils.SimonClassLoaderHelper;
 import de.root1.simon.utils.Utils;
-import java.io.Serializable;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -559,7 +559,7 @@ public class ProcessMessageRunnable implements Runnable {
 
                 logger.debug("Result of method '{}' is SimonRemote: {}", method, result);
 
-                SimonRemoteInstance sri = new SimonRemoteInstance(session, result);
+                SimonRemoteInstance sri = new SimonRemoteInstance(session, result, result.getClass());
 
                 dispatcher.getLookupTable().putRemoteInstance(session.getId(), sri, result);
                 result = sri;

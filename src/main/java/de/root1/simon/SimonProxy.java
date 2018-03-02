@@ -136,7 +136,7 @@ public class SimonProxy implements InvocationHandler {
                     logger.debug("It's a SimonProxy instance");
                     // if one tries to compare this proxy with another proxy: Do it locally here by comparing the string representation
 //                    return o.toString().equals(this.toString());
-                    o = new SimonRemoteInstance(session, args[0]);
+                    o = new SimonRemoteInstance(session, args[0], args[0].getClass());
                     logger.debug("Given argument is a SimonProxy, created SimonRemoteInstance: {}", (SimonRemoteInstance) o);
 
                 } else { // else, it's a standard object -> check for serializeable and do a remote-equals ...

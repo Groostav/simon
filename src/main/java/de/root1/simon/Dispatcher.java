@@ -344,7 +344,16 @@ public class Dispatcher implements IoHandler {
 
                 if (Utils.isValidRemote(args[i])) {
                     
-                    SimonRemoteInstance sri = new SimonRemoteInstance(session, args[i]);
+                    SimonRemoteInstance sri = new SimonRemoteInstance(session, args[i], args[i].getClass());
+
+                    logger.debug("SimonRemoteInstance found! id={}", sri.getId());
+
+                    lookupTable.putRemoteInstance(session.getId(), sri, args[i]);
+                    args[i] = sri; // overwrite arg with wrapped remote instance-interface
+                }
+                else if (Utils.isRemoteArgument(method.getParameters()[i])) {
+
+                    SimonRemoteInstance sri = new SimonRemoteInstance(session, args[i], method.getParameters()[i]);
 
                     logger.debug("SimonRemoteInstance found! id={}", sri.getId());
 
